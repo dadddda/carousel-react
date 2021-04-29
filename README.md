@@ -18,5 +18,5 @@ npm run build
 
 To start the React.js web application run this command from the root directory:
 ```bash
-npm start
+npm run start
 ```

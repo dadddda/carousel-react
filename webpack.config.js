@@ -4,13 +4,13 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "public/build"),
+    path: path.resolve(__dirname, "public"),
     filename: "main.js"
   },
   target: "node",
   devServer: {
     port: "8080",
-    contentBase: ["./public"],
+    contentBase: path.resolve(__dirname, "public"),
     open: true
   },
   resolve: {
