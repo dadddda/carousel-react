@@ -4,5 +4,5 @@
 # testing
 /coverage
 
-# production
-public/build
+# output files
+main.js
