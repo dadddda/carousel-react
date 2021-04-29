@@ -1,1 +1,1 @@
-# carousel-react
+# Carousel component using React.js
