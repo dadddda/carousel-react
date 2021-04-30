@@ -1,0 +1,15 @@
+.View {
+  display: flex;
+  width: 100%;
+  overflow: auto;
+}
+
+.View.single {
+  height: 360px;
+  background-color: darksalmon;
+}
+
+.View.multiple {
+  height: 76px;
+  background-color: cadetblue;
+}

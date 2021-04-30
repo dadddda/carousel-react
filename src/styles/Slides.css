@@ -1,0 +1,6 @@
+.Slides {
+  display: flex;
+  width: max-content;
+  height: max-content;
+  padding: 0 2.5px;
+}
