@@ -7,11 +7,11 @@ module.exports = {
     path: path.resolve(__dirname, "public"),
     filename: "main.js"
   },
-  target: "node",
+  target: "web",
   devServer: {
     port: "8080",
     contentBase: path.resolve(__dirname, "public"),
-    open: true
+    hot: true
   },
   resolve: {
     extensions: [".js", ".json"]
