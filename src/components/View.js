@@ -26,7 +26,10 @@ const View = ({
 
 View.defaultProps = {
   type: "single",
-  slides: []
+  slides: [],
+  startActionHandler: () => {},
+  actionHandler: () => {},
+  stopActionHandler: () => {}
 }
 
 export default View;
