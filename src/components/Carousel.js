@@ -35,10 +35,57 @@ const Carousel = () => {
   let singleView = "single";
   let multipleView = "multiple";
 
+  let inAction = false;
+  let posX = 0;
+  let activeComp = null;
+
+  // start action handler
+  const startActionHandler = (e) => {
+    activeComp = e.currentTarget;
+    console.log("start");
+
+    inAction = true;
+    posX = e.clientX;
+  }
+
+  // action handler
+  const actionHandler = (e) => {
+    if (inAction === false) return;
+
+    let posXDiff = posX - e.clientX;
+    posX = e.clientX;
+
+    if (activeComp !== null) {
+      activeComp.scrollLeft += posXDiff;
+    }
+  }
+
+  // stop action handler
+  const stopActionHandler = (e) => {
+    if (inAction === false) return;
+
+    console.log("stop");
+
+    inAction = false;
+    activeComp = null;
+  }
+
   return (
     <div className="Carousel">
-      <View type={singleView} slides={slides}></View>
-      <View type={multipleView} slides={slides}></View>
+      <View 
+        type={singleView} 
+        slides={slides} 
+        startActionHandler={startActionHandler}
+        actionHandler={actionHandler}
+        stopActionHandler={stopActionHandler}
+      ></View>
+      <View 
+        type={multipleView} 
+        slides={slides}
+        startActionHandler={startActionHandler}
+        actionHandler={actionHandler}
+        stopActionHandler={stopActionHandler}
+      ></View>
     </div>
   )
 }
