@@ -32,42 +32,85 @@ const Carousel = () => {
     }
   ]
 
-  let singleView = "single";
-  let multipleView = "multiple";
+  const singleView = "single";
+  const multipleView = "multiple";
+  const jumpThreshold = 100;
 
   let inAction = false;
-  let posX = 0;
+  let startX = 0;
+  let actionX = 0;
   let activeComp = null;
+
+  let slidesComp = null;
+  let slidesCount = 0;
+  let slideWidth = 0;
+
+  let currSlide = 0;
 
   // start action handler
   const startActionHandler = (e) => {
-    activeComp = e.currentTarget;
-    console.log("start");
-
     inAction = true;
-    posX = e.clientX;
+    startX = e.clientX;
+    actionX = e.clientX;
+    activeComp = e.currentTarget;
+
+    slidesComp = activeComp.children[0];
+    slidesCount = slidesComp.children.length;
+    slideWidth = slidesComp.offsetWidth / slidesCount;
+
+    console.log("start");
   }
 
   // action handler
   const actionHandler = (e) => {
     if (inAction === false) return;
 
-    let posXDiff = posX - e.clientX;
-    posX = e.clientX;
+    let actionXDiff = actionX - e.clientX;
+    actionX = e.clientX;
 
-    if (activeComp !== null) {
-      activeComp.scrollLeft += posXDiff;
-    }
+    let activeCompBr = activeComp.getBoundingClientRect();
+    let slidesCompBr = slidesComp.getBoundingClientRect();
+
+    let slidesXPos = slidesCompBr.left - activeCompBr.left;
+    let newSlidesXPos = slidesXPos - actionXDiff;
+
+    let slidesStartX = 0;
+    let slidesEndX = slidesCompBr.width - activeCompBr.width;
+    if (newSlidesXPos > 0) newSlidesXPos = slidesStartX;
+    else if (newSlidesXPos < slidesEndX * -1) newSlidesXPos = slidesEndX * -1;
+
+    slidesComp.style.left = newSlidesXPos + "px";
   }
 
   // stop action handler
   const stopActionHandler = (e) => {
     if (inAction === false) return;
 
-    console.log("stop");
+    if (activeComp.classList.contains(multipleView)) {
+      inAction = false;
+      console.log("stop");
+      return;
+    }
 
+    if (Math.abs(startX - actionX) > jumpThreshold) {
+      if (startX > actionX && currSlide < slidesCount - 1) {
+        currSlide++;
+      } else if (startX < actionX && currSlide > 0) {
+        currSlide--;
+      }
+    }
+
+    slidesComp.style.transition = "left 200ms ease-in-out";
+  
+    let newSlidesXPos = currSlide * slideWidth * -1;
+    slidesComp.style.left = newSlidesXPos + "px";
+
+    setTimeout(() => {
+      slidesComp.style.transition = "unset";
+    }, 200);
+    
     inAction = false;
-    activeComp = null;
+    console.log("stop");
   }
 
   return (
