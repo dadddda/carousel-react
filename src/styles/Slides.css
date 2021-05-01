@@ -1,6 +1,8 @@
 .Slides {
+  position: absolute;
+  left: 0;
   display: flex;
   width: max-content;
   height: max-content;
-  padding: 0 2.5px;
+  transition: unset;
 }

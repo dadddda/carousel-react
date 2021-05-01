@@ -1,11 +1,10 @@
 .Carousel {
   display: flex;
   flex-direction: column;
-  width: 364px; /* 360px + 4px border */
-  height: 440px; /* 436px + 4px border */
+  width: 348px;
+  height: 416px;
+  padding: 4px;
   margin: auto;
-  border: solid 2px black;
-  border-radius: 2.5px;
-  background-color: rgb(230, 230, 230);
+  background-color: rgb(200, 200, 200);
   overflow: hidden;
 }

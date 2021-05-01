@@ -1,15 +1,14 @@
 .View {
+  position: relative;
   display: flex;
   width: 100%;
   overflow: hidden;
 }
 
 .View.single {
-  height: 360px;
-  /* background-color: rgb(210, 210, 210); */
+  height: 340px;
 }
 
 .View.multiple {
-  height: 76px;
-  /* background-color: rgb(190, 190, 190); */
+  height: 68px;
 }
