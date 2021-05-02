@@ -6,3 +6,7 @@
   height: max-content;
   transition: unset;
 }
+
+.Slides.animated {
+  transition: left 200ms ease-in-out;
+}

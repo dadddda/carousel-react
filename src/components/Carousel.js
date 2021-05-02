@@ -34,6 +34,7 @@ const Carousel = () => {
 
   const singleView = "single";
   const multipleView = "multiple";
+  const animated = "animated";
   const jumpThreshold = 100;
 
   let inAction = false;
@@ -50,8 +51,13 @@ const Carousel = () => {
   // start action handler
   const startActionHandler = (e) => {
     inAction = true;
-    startX = e.clientX;
-    actionX = e.clientX;
+
+    let coordinateData = e;
+    let touch = e.touches;
+    if (touch !== undefined) coordinateData = touch[0];
+
+    startX = coordinateData.clientX;
+    actionX = coordinateData.clientX;
     activeComp = e.currentTarget;
 
     slidesComp = activeComp.children[0];
@@ -65,8 +71,12 @@ const Carousel = () => {
   const actionHandler = (e) => {
     if (inAction === false) return;
 
-    let actionXDiff = actionX - e.clientX;
-    actionX = e.clientX;
+    let coordinateData = e;
+    let touch = e.touches;
+    if (touch !== undefined) coordinateData = touch[0];
+
+    let actionXDiff = actionX - coordinateData.clientX;
+    actionX = coordinateData.clientX;
 
     let activeCompBr = activeComp.getBoundingClientRect();
     let slidesCompBr = slidesComp.getBoundingClientRect();
@@ -100,13 +110,13 @@ const Carousel = () => {
       }
     }
 
-    slidesComp.style.transition = "left 200ms ease-in-out";
+    slidesComp.classList.add(animated);
   
     let newSlidesXPos = currSlide * slideWidth * -1;
     slidesComp.style.left = newSlidesXPos + "px";
 
     setTimeout(() => {
-      slidesComp.style.transition = "unset";
+      slidesComp.classList.remove(animated);
     }, 200);
     
     inAction = false;

@@ -18,6 +18,11 @@ const View = ({
       onMouseMove={actionHandler}
       onMouseUp={stopActionHandler}
       onMouseLeave={stopActionHandler}
+
+      onTouchStart={startActionHandler}
+      onTouchMove={actionHandler}
+      onTouchEnd={stopActionHandler}
+      onTouchCancel={stopActionHandler}
     >
       <Slides type={type} slides={slides}></Slides>
     </div>
