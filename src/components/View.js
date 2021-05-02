@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../styles/View.css";
+import * as K from "../helpers/constants";
 
 import Slides from "./Slides";
 import Buttons from "./Buttons";
@@ -34,7 +35,7 @@ const View = ({
         ref={slidesRef}
       ></Slides>
       {
-        type === "single" 
+        type === K.singleView 
           ? <Buttons clickHandler={clickHandler}></Buttons> 
           : <></>
       }
@@ -43,7 +44,7 @@ const View = ({
 }
 
 View.defaultProps = {
-  type: "single",
+  type: K.singleView,
   slides: [],
   startActionHandler: () => {},
   actionHandler: () => {},

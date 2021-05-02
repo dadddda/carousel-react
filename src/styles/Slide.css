@@ -13,4 +13,11 @@
   width: 60px;
   height: 60px;
   cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 200ms ease-in-out;
+}
+
+.Slide.multiple.selected {
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
 }

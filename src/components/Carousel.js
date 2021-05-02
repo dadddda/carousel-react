@@ -61,6 +61,7 @@ const Carousel = () => {
 
     currSlide = Utils.adjCurrSlide(startX, actionX, currSlide, slidesCount);
     Utils.jumpToSlide(slidesComp, currSlide);
+    Utils.selectSlide(currSlide, multipleSlides.current.childNodes);
 
     inAction = false;
     console.log("stop");
@@ -84,6 +85,7 @@ const Carousel = () => {
       }
 
       Utils.jumpToSlide(singleSlides.current, currSlide);
+      Utils.selectSlide(currSlide, multipleSlides.current.childNodes);
     } else {
       console.log("moved");
     }

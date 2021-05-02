@@ -1,16 +1,20 @@
+// CSS classes
 const singleView = "single";
 const multipleView = "multiple";
 const animated = "animated";
-const jumpThreshold = 100;
-
+const selectedSlide = "selected"
 const leftButton = "left";
 const rightButton = "right";
+
+// ...
+const jumpThreshold = 100;
 
 export {
   singleView,
   multipleView,
   animated,
-  jumpThreshold,
+  selectedSlide,
   leftButton,
-  rightButton
+  rightButton,
+  jumpThreshold
 };

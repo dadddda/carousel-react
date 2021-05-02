@@ -79,11 +79,22 @@ const getActionX = (e) => {
   return coordinateData.clientX;
 }
 
+// clears from every slide and then adds selected slide CSS 
+// class to a slide with the given id from the given slides list
+const selectSlide = (id, slides) => {
+  slides.forEach(slide => {
+    slide.classList.remove(K.selectedSlide);
+  });
+
+  slides[id].classList.add(K.selectedSlide);
+}
+
 export {
   repositionSlides, 
   jumpToSlide, 
   adjCurrSlide,
   incrCurrSlide,
   decrCurrSlide,
-  getActionX
+  getActionX,
+  selectSlide
 };

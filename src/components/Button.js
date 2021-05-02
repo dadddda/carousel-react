@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../styles/Button.css";
+import * as K from "../helpers/constants";
 
 const Button = ({pos, clickHandler}) => {
   return (
@@ -11,7 +12,7 @@ const Button = ({pos, clickHandler}) => {
 }
 
 Button.defaultProps = {
-  pos: "left",
+  pos: K.leftButton,
   clickHandler: () => {}
 }
 

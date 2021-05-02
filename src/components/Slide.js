@@ -1,6 +1,7 @@
 import React from "react";
 
 import "../styles/Slide.css";
+import * as K from "../helpers/constants";
 
 const Slide = ({
   type, 
@@ -11,7 +12,7 @@ const Slide = ({
 }) => {
   return (
     <div 
-      className={"Slide " + type} 
+      className={"Slide " + type + ((id === 0) ? " " + K.selectedSlide : "")}
       id={id} 
       onClick={clickHandler}
     >
@@ -21,7 +22,7 @@ const Slide = ({
 }
 
 Slide.defaultProps = {
-  type: "single",
+  type: K.singleView,
   id: "",
   path: "",
   filename: "",
