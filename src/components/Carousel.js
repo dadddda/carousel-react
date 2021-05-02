@@ -4,11 +4,9 @@ import "../styles/Carousel.css";
 import * as K from "../helpers/constants";
 import * as Utils from "../helpers/utils";
 
-import slides from "../data/slides.json";
-
 import View from "./View";
 
-const Carousel = () => {
+const Carousel = ({slides}) => {
   const singleSlides = React.createRef();
   const multipleSlides = React.createRef();
 
@@ -113,6 +111,10 @@ const Carousel = () => {
       ></View>
     </div>
   )
+}
+
+Carousel.defaultProps = {
+  slides: []
 }
 
 export default Carousel;

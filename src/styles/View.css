@@ -3,7 +3,7 @@
   display: flex;
   width: 100%;
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 .View.single {
