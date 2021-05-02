@@ -1,9 +1,8 @@
 .Carousel {
   display: flex;
   flex-direction: column;
-  width: 348px;
-  height: 416px;
-  padding: 4px;
+  width: 340px;
+  height: 408px;
   margin: auto;
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(240, 240, 240);
 }
