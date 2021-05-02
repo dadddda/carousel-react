@@ -4,11 +4,13 @@ import "../styles/Carousel.css";
 import * as K from "../helpers/constants";
 import * as Utils from "../helpers/utils";
 
+import slides from "../data/slides.json";
+
 import View from "./View";
 
 const Carousel = () => {
-  const slidesSingle = React.createRef();
-  const slidesMultiple = React.createRef();
+  const singleSlides = React.createRef();
+  const multipleSlides = React.createRef();
 
   let inAction = false;
   let moved = false;
@@ -51,7 +53,7 @@ const Carousel = () => {
   const stopActionHandler = (e) => {
     if (inAction === false) return;
 
-    if (slidesComp === slidesMultiple.current) {
+    if (slidesComp === multipleSlides.current) {
       inAction = false;
       console.log("stop");
       return;
@@ -69,7 +71,7 @@ const Carousel = () => {
     if (moved === false) {
       console.log("click");
       currSlide = e.currentTarget.id;
-      Utils.jumpToSlide(slidesSingle.current, currSlide);
+      Utils.jumpToSlide(singleSlides.current, currSlide);
     } else {
       console.log("moved");
     }
@@ -79,20 +81,20 @@ const Carousel = () => {
     <div className="Carousel">
       <View 
         type={K.singleView} 
-        slides={K.slides} 
+        slides={slides} 
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
-        slidesRef={slidesSingle}
+        slidesRef={singleSlides}
       ></View>
       <View 
         type={K.multipleView} 
-        slides={K.slides}
+        slides={slides}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
         clickHandler={clickHandler}
-        slidesRef={slidesMultiple}
+        slidesRef={multipleSlides}
       ></View>
     </div>
   )

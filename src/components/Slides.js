@@ -16,7 +16,8 @@ const Slides = React.forwardRef(({
           key={slide.id} 
           type={type} 
           id={slide.id} 
-          title={slide.title} 
+          path={slide.path} 
+          filename={slide.filename}
           clickHandler={clickHandler}
         ></Slide>
       ))}
