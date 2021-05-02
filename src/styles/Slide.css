@@ -7,10 +7,10 @@
 .Slide.single {
   width: 332px;
   height: 332px;
-  
 }
 
 .Slide.multiple {
   width: 60px;
   height: 60px;
+  cursor: pointer;
 }
