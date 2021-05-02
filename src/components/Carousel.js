@@ -66,11 +66,23 @@ const Carousel = () => {
     console.log("stop");
   }
 
-  // multiple view slides click handler
+  // click handler
   const clickHandler = (e) => {
+    let currentTarget = e.currentTarget;
+
     if (moved === false) {
       console.log("click");
-      currSlide = e.currentTarget.id;
+      
+      if (slidesComp === multipleSlides.current) {
+        currSlide = currentTarget.id;
+      } else {
+        if (currentTarget.classList.contains(K.leftButton)) {
+          currSlide = Utils.decrCurrSlide(currSlide);
+        } else {
+          currSlide = Utils.incrCurrSlide(currSlide, slidesCount);
+        }
+      }
+
       Utils.jumpToSlide(singleSlides.current, currSlide);
     } else {
       console.log("moved");
@@ -85,6 +97,7 @@ const Carousel = () => {
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
+        clickHandler={clickHandler}
         slidesRef={singleSlides}
       ></View>
       <View 

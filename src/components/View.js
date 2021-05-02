@@ -33,7 +33,11 @@ const View = ({
         clickHandler={clickHandler}
         ref={slidesRef}
       ></Slides>
-      {type === "single" ? <Buttons></Buttons> : <></>}
+      {
+        type === "single" 
+          ? <Buttons clickHandler={clickHandler}></Buttons> 
+          : <></>
+      }
     </div>
   );
 }
