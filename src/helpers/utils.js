@@ -52,6 +52,24 @@ const adjCurrSlide = (startX, endX, currSlide, slidesCount) => {
   return newSlide;
 }
 
+// increments given slide number according to constraints
+const incrCurrSlide = (currSlide, slidesCount) => {
+  let newSlide = currSlide;
+
+  if (currSlide < slidesCount - 1) newSlide++;
+
+  return newSlide;
+}
+
+// decrements given slide number according to constraints
+const decrCurrSlide = (currSlide) => {
+  let newSlide = currSlide;
+
+  if (currSlide > 0) newSlide--;
+
+  return newSlide;
+}
+
 // returns client x coordinate of touch/mouse action
 const getActionX = (e) => {
   let coordinateData = e;
@@ -65,5 +83,7 @@ export {
   repositionSlides, 
   jumpToSlide, 
   adjCurrSlide,
+  incrCurrSlide,
+  decrCurrSlide,
   getActionX
 };
