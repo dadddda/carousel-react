@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "path": "./images/forest.jpg",
+    "filename": "Forest"
+  },
+  {
+    "id": 1,
+    "path": "./images/lake.jpg",
+    "filename": "Lake"
+  },
+  {
+    "id": 2,
+    "path": "./images/mountain.jpg",
+    "filename": "Mountain"
+  },
+  {
+    "id": 3,
+    "path": "./images/river.jpg",
+    "filename": "River"
+  },
+  {
+    "id": 4,
+    "path": "./images/road.jpg",
+    "filename": "Road"
+  },
+  {
+    "id": 5,
+    "path": "./images/sunrays.jpg",
+    "filename": "Sunrays"
+  }
+]
