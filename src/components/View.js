@@ -9,7 +9,9 @@ const View = ({
   slides, 
   startActionHandler, 
   actionHandler, 
-  stopActionHandler
+  stopActionHandler,
+  clickHandler,
+  slidesRef
 }) => {
   return (
     <div 
@@ -24,7 +26,12 @@ const View = ({
       onTouchEnd={stopActionHandler}
       onTouchCancel={stopActionHandler}
     >
-      <Slides type={type} slides={slides}></Slides>
+      <Slides 
+        type={type} 
+        slides={slides} 
+        clickHandler={clickHandler}
+        ref={slidesRef}
+      ></Slides>
     </div>
   );
 }
@@ -34,7 +41,8 @@ View.defaultProps = {
   slides: [],
   startActionHandler: () => {},
   actionHandler: () => {},
-  stopActionHandler: () => {}
+  stopActionHandler: () => {},
+  clickHandler: () => {}
 }
 
 export default View;

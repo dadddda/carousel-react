@@ -2,9 +2,9 @@ import React from "react";
 
 import "../styles/Slide.css";
 
-const Slide = ({type, title}) => {
+const Slide = ({type, id, title, clickHandler}) => {
   return (
-    <div className={"Slide " + type}>
+    <div className={"Slide " + type} id={id} onClick={clickHandler}>
       <span>{title}</span>
     </div>
   )
@@ -12,7 +12,9 @@ const Slide = ({type, title}) => {
 
 Slide.defaultProps = {
   type: "single",
-  title: "Slide"
+  id: "",
+  title: "Slide",
+  clickHandler: () => {}
 }
 
 export default Slide;

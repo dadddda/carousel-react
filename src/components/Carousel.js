@@ -1,68 +1,37 @@
 import React from "react";
 
 import "../styles/Carousel.css";
+import * as K from "../helpers/constants";
+import * as Utils from "../helpers/utils";
 
 import View from "./View";
 
 const Carousel = () => {
-  const slides = [
-    {
-      id: 1,
-      title: "Slide 1"
-    },
-    {
-      id: 2,
-      title: "Slide 2"
-    },
-    {
-      id: 3,
-      title: "Slide 3"
-    },
-    {
-      id: 4,
-      title: "Slide 4"
-    },
-    {
-      id: 5,
-      title: "Slide 5"
-    },
-    {
-      id: 6,
-      title: "Slide 6"
-    }
-  ]
-
-  const singleView = "single";
-  const multipleView = "multiple";
-  const animated = "animated";
-  const jumpThreshold = 100;
+  const slidesSingle = React.createRef();
+  const slidesMultiple = React.createRef();
 
   let inAction = false;
+  let moved = false;
   let startX = 0;
   let actionX = 0;
   let activeComp = null;
 
   let slidesComp = null;
   let slidesCount = 0;
-  let slideWidth = 0;
 
   let currSlide = 0;
 
   // start action handler
   const startActionHandler = (e) => {
     inAction = true;
+    moved = false;
 
-    let coordinateData = e;
-    let touch = e.touches;
-    if (touch !== undefined) coordinateData = touch[0];
-
-    startX = coordinateData.clientX;
-    actionX = coordinateData.clientX;
+    startX = Utils.getActionX(e);
+    actionX = Utils.getActionX(e);
     activeComp = e.currentTarget;
 
     slidesComp = activeComp.children[0];
     slidesCount = slidesComp.children.length;
-    slideWidth = slidesComp.offsetWidth / slidesCount;
 
     console.log("start");
   }
@@ -70,74 +39,60 @@ const Carousel = () => {
   // action handler
   const actionHandler = (e) => {
     if (inAction === false) return;
+    moved = true;
 
-    let coordinateData = e;
-    let touch = e.touches;
-    if (touch !== undefined) coordinateData = touch[0];
+    let actionXDiff = actionX - Utils.getActionX(e);;
+    actionX = Utils.getActionX(e);;
 
-    let actionXDiff = actionX - coordinateData.clientX;
-    actionX = coordinateData.clientX;
-
-    let activeCompBr = activeComp.getBoundingClientRect();
-    let slidesCompBr = slidesComp.getBoundingClientRect();
-
-    let slidesXPos = slidesCompBr.left - activeCompBr.left;
-    let newSlidesXPos = slidesXPos - actionXDiff;
-
-    let slidesStartX = 0;
-    let slidesEndX = slidesCompBr.width - activeCompBr.width;
-    if (newSlidesXPos > 0) newSlidesXPos = slidesStartX;
-    else if (newSlidesXPos < slidesEndX * -1) newSlidesXPos = slidesEndX * -1;
-
-    slidesComp.style.left = newSlidesXPos + "px";
+    Utils.repositionSlides(activeComp, slidesComp, actionXDiff);
   }
 
   // stop action handler
   const stopActionHandler = (e) => {
     if (inAction === false) return;
 
-    if (activeComp.classList.contains(multipleView)) {
+    if (slidesComp === slidesMultiple.current) {
       inAction = false;
       console.log("stop");
       return;
     }
 
-    if (Math.abs(startX - actionX) > jumpThreshold) {
-      if (startX > actionX && currSlide < slidesCount - 1) {
-        currSlide++;
-      } else if (startX < actionX && currSlide > 0) {
-        currSlide--;
-      }
-    }
+    currSlide = Utils.adjCurrSlide(startX, actionX, currSlide, slidesCount);
+    Utils.jumpToSlide(slidesComp, currSlide);
 
-    slidesComp.classList.add(animated);
-  
-    let newSlidesXPos = currSlide * slideWidth * -1;
-    slidesComp.style.left = newSlidesXPos + "px";
-
-    setTimeout(() => {
-      slidesComp.classList.remove(animated);
-    }, 200);
-    
     inAction = false;
     console.log("stop");
+  }
+
+  // multiple view slides click handler
+  const clickHandler = (e) => {
+    if (moved === false) {
+      console.log("click");
+      currSlide = e.currentTarget.id;
+      Utils.jumpToSlide(slidesSingle.current, currSlide);
+    } else {
+      console.log("moved");
+    }
   }
 
   return (
     <div className="Carousel">
       <View 
-        type={singleView} 
-        slides={slides} 
+        type={K.singleView} 
+        slides={K.slides} 
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
+        slidesRef={slidesSingle}
       ></View>
       <View 
-        type={multipleView} 
-        slides={slides}
+        type={K.multipleView} 
+        slides={K.slides}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
+        clickHandler={clickHandler}
+        slidesRef={slidesMultiple}
       ></View>
     </div>
   )
