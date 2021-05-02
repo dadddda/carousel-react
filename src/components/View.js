@@ -3,6 +3,7 @@ import React from "react";
 import "../styles/View.css";
 
 import Slides from "./Slides";
+import Buttons from "./Buttons";
 
 const View = ({
   type, 
@@ -32,6 +33,7 @@ const View = ({
         clickHandler={clickHandler}
         ref={slidesRef}
       ></Slides>
+      {type === "single" ? <Buttons></Buttons> : <></>}
     </div>
   );
 }

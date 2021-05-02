@@ -1,0 +1,18 @@
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(240, 240, 240, 0.8);
+  cursor: pointer;
+}
+
+.Button.left {
+  transform: rotate(0deg);
+}
+
+.Button.right {
+  transform: rotate(180deg);
+}
