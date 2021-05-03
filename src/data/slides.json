@@ -1,32 +1,52 @@
 [
   {
     "id": 0,
+    "path": "./images/bridge.jpg",
+    "filename": "Bridge"
+  },
+  {
+    "id": 1,
+    "path": "./images/clouds.jpg",
+    "filename": "Clouds"
+  },
+  {
+    "id": 2,
     "path": "./images/forest.jpg",
     "filename": "Forest"
   },
   {
-    "id": 1,
+    "id": 3,
+    "path": "./images/frost.jpg",
+    "filename": "Frost"
+  },
+  {
+    "id": 4,
     "path": "./images/lake.jpg",
     "filename": "Lake"
   },
   {
-    "id": 2,
+    "id": 5,
     "path": "./images/mountain.jpg",
     "filename": "Mountain"
   },
   {
-    "id": 3,
+    "id": 6,
     "path": "./images/river.jpg",
     "filename": "River"
   },
   {
-    "id": 4,
+    "id": 7,
     "path": "./images/road.jpg",
     "filename": "Road"
   },
   {
-    "id": 5,
+    "id": 8,
     "path": "./images/sunrays.jpg",
     "filename": "Sunrays"
+  },
+  {
+    "id": 9,
+    "path": "./images/train.jpg",
+    "filename": "Train"
   }
 ]
