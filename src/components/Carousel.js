@@ -44,22 +44,22 @@ const Carousel = ({slides}) => {
     let actionXDiff = actionX - Utils.getActionX(e);;
     actionX = Utils.getActionX(e);;
 
-    Utils.repositionSlides(activeComp, slidesComp, actionXDiff);
+    Utils.dragSlides(activeComp, slidesComp, actionXDiff);
   }
 
   // stop action handler
   const stopActionHandler = (e) => {
     if (inAction === false) return;
 
-    if (slidesComp === multipleSlides.current) {
+    if (moved === false || slidesComp === multipleSlides.current) {
       inAction = false;
       console.log("stop");
       return;
     }
 
-    currSlide = Utils.adjCurrSlide(startX, actionX, currSlide, slidesCount);
+    currSlide = Utils.updateSlideNum(startX, actionX, currSlide, slidesCount);
     Utils.jumpToSlide(slidesComp, currSlide);
-    Utils.selectSlide(currSlide, multipleSlides.current.childNodes);
+    Utils.selectSlide(activeComp, multipleSlides.current, currSlide);
 
     inAction = false;
     console.log("stop");
@@ -75,15 +75,15 @@ const Carousel = ({slides}) => {
       if (slidesComp === multipleSlides.current) {
         currSlide = currentTarget.id;
       } else {
-        if (currentTarget.classList.contains(K.leftButton)) {
-          currSlide = Utils.decrCurrSlide(currSlide);
-        } else {
-          currSlide = Utils.incrCurrSlide(currSlide, slidesCount);
-        }
+        let mode = "";
+        if (currentTarget.classList.contains(K.leftButton)) mode = "decr";
+        else mode = "incr";
+
+        currSlide = Utils.modifySlideNum(currSlide, slidesCount, mode);
       }
 
       Utils.jumpToSlide(singleSlides.current, currSlide);
-      Utils.selectSlide(currSlide, multipleSlides.current.childNodes);
+      Utils.selectSlide(activeComp, multipleSlides.current, currSlide);
     } else {
       console.log("moved");
     }

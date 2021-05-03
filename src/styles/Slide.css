@@ -1,17 +1,16 @@
 .Slide {
   display: flex;
-  margin: 4px;
-  background-color: rgb(250, 250, 250);
+  padding: 4px;
 }
 
 .Slide.single {
-  width: 332px;
-  height: 332px;
+  width: 340px;
+  height: 340px;
 }
 
 .Slide.multiple {
-  width: 60px;
-  height: 60px;
+  width: 68px;
+  height: 68px;
   cursor: pointer;
   opacity: 0.5;
   transition: opacity 200ms ease-in-out;
