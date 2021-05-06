@@ -9,6 +9,8 @@ const dragSlides = (slidesContainer, slidesComponent, actionXDiff) => {
   let slidesContainerBr = slidesContainer.getBoundingClientRect();
   let slidesComponentBr = slidesComponent.getBoundingClientRect();
 
+  if (slidesContainerBr.width > slidesComponentBr.width) return;
+
   let slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
   let newSlidesXPos = slidesXPos - actionXDiff;
 
