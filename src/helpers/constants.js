@@ -1,20 +1,20 @@
 // CSS classes
-const singleView = "single";
-const multipleView = "multiple";
-const animated = "animated";
-const selectedSlide = "selected"
-const leftButton = "left";
-const rightButton = "right";
+const MAIN_TYPE = "main";
+const THUMBNAIL_TYPE = "thumbnail";
+const ANIMATED_SLIDES = "animated";
+const SELECTED_SLIDE = "selected";
+const LEFT_BUTTON = "left";
+const RIGHT_BUTTON = "right";
 
 // ...
-const jumpThreshold = 100;
+const JUMP_THRESHOLD = 100;
 
 export {
-  singleView,
-  multipleView,
-  animated,
-  selectedSlide,
-  leftButton,
-  rightButton,
-  jumpThreshold
+  MAIN_TYPE,
+  THUMBNAIL_TYPE,
+  ANIMATED_SLIDES,
+  SELECTED_SLIDE,
+  LEFT_BUTTON,
+  RIGHT_BUTTON,
+  JUMP_THRESHOLD
 };

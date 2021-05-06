@@ -1,7 +1,7 @@
 import React from "react";
 
 import "../styles/Slides.css";
-import * as K from "../helpers/constants";
+import * as Const from "../helpers/constants";
 
 import Slide from "./Slide";
 
@@ -20,14 +20,14 @@ const Slides = React.forwardRef(({
           path={slide.path} 
           filename={slide.filename}
           clickHandler={clickHandler}
-        ></Slide>
+        />
       ))}
     </div>
   )
 });
 
 Slides.defaultProps = {
-  type: K.singleView,
+  type: Const.MAIN_TYPE,
   slides: [],
   clickHandler: () => {}
 }

@@ -1,37 +1,37 @@
 import React from "react";
 
 import "../styles/Carousel.css";
-import * as K from "../helpers/constants";
-import * as Utils from "../helpers/utils";
+import * as Const from "../helpers/constants";
+import * as CarouselUtils from "../helpers/carousel_utils";
 
-import View from "./View";
+import SlidesContainer from "./SlidesContainer";
 
 const Carousel = ({slides}) => {
-  const carousel = React.createRef();
-  const singleSlides = React.createRef();
-  const multipleSlides = React.createRef();
+  const carouselRef = React.createRef();
+  const mainSlidesRef = React.createRef();
+  const thumbnailSlidesRef = React.createRef();
 
   let inAction = false;
-  let moved = false;
+  let pointerMoved = false;
   let startX = 0;
   let actionX = 0;
-  let activeComp = null;
+  let activeComponent = null;
 
-  let slidesComp = null;
+  let slidesComponent = null;
   let slidesCount = 0;
 
-  let currSlide = 0;
+  let currentSlide = 0;
 
   // window resize event initializer and handler
   React.useEffect(() => {
-    let carouselWidth = carousel.current.offsetWidth;
+    let carouselWidth = carouselRef.current.offsetWidth;
 
     const resizeHandler = () => {
-      let scaleFactor = carousel.current.offsetWidth / carouselWidth;
-      carouselWidth = carousel.current.offsetWidth;
+      let scaleFactor = carouselRef.current.offsetWidth / carouselWidth;
+      carouselWidth = carouselRef.current.offsetWidth;
 
-      Utils.keepRelative(carousel.current, singleSlides.current, scaleFactor);
-      Utils.keepRelative(carousel.current, multipleSlides.current, scaleFactor);
+      CarouselUtils.keepRelative(carouselRef.current, mainSlidesRef.current, scaleFactor);
+      CarouselUtils.keepRelative(carouselRef.current, thumbnailSlidesRef.current, scaleFactor);
     }
 
     window.addEventListener("resize", resizeHandler)
@@ -43,14 +43,14 @@ const Carousel = ({slides}) => {
   // start action handler
   const startActionHandler = (e) => {
     inAction = true;
-    moved = false;
+    pointerMoved = false;
 
-    startX = Utils.getActionX(e);
-    actionX = Utils.getActionX(e);
-    activeComp = e.currentTarget;
+    startX = CarouselUtils.getActionX(e);
+    actionX = CarouselUtils.getActionX(e);
+    activeComponent = e.currentTarget;
 
-    slidesComp = activeComp.children[0];
-    slidesCount = slidesComp.children.length;
+    slidesComponent = activeComponent.children[0];
+    slidesCount = slidesComponent.children.length;
 
     console.log("start");
   }
@@ -58,27 +58,27 @@ const Carousel = ({slides}) => {
   // action handler
   const actionHandler = (e) => {
     if (inAction === false) return;
-    moved = true;
+    pointerMoved = true;
 
-    let actionXDiff = actionX - Utils.getActionX(e);;
-    actionX = Utils.getActionX(e);;
+    let actionXDiff = actionX - CarouselUtils.getActionX(e);;
+    actionX = CarouselUtils.getActionX(e);;
 
-    Utils.dragSlides(activeComp, slidesComp, actionXDiff);
+    CarouselUtils.dragSlides(activeComponent, slidesComponent, actionXDiff);
   }
 
   // stop action handler
   const stopActionHandler = (e) => {
     if (inAction === false) return;
 
-    if (moved === false || slidesComp === multipleSlides.current) {
+    if (pointerMoved === false || slidesComponent === thumbnailSlidesRef.current) {
       inAction = false;
       console.log("stop");
       return;
     }
 
-    currSlide = Utils.updateSlideNum(startX, actionX, currSlide, slidesCount);
-    Utils.jumpToSlide(slidesComp, currSlide, true);
-    Utils.setSelectionTo(activeComp, multipleSlides.current, currSlide);
+    currentSlide = CarouselUtils.updateSlideNumber(startX, actionX, currentSlide, slidesCount);
+    CarouselUtils.jumpToSlide(slidesComponent, currentSlide, true);
+    CarouselUtils.setSelectionTo(activeComponent, thumbnailSlidesRef.current, currentSlide);
 
     inAction = false;
     console.log("stop");
@@ -88,48 +88,48 @@ const Carousel = ({slides}) => {
   const clickHandler = (e) => {
     let currentTarget = e.currentTarget;
 
-    if (moved === false) {
+    if (pointerMoved === false) {
       console.log("click");
       
       let animate = false;
-      if (slidesComp === multipleSlides.current) {
-        currSlide = currentTarget.id;
+      if (slidesComponent === thumbnailSlidesRef.current) {
+        currentSlide = currentTarget.id;
       } else {
         let mode = "";
-        if (currentTarget.classList.contains(K.leftButton)) mode = "decr";
+        if (currentTarget.classList.contains(Const.LEFT_BUTTON)) mode = "decr";
         else mode = "incr";
 
         animate = true;
-        currSlide = Utils.modifySlideNum(currSlide, slidesCount, mode);
+        currentSlide = CarouselUtils.modifySlideNumber(currentSlide, slidesCount, mode);
       }
 
-      Utils.jumpToSlide(singleSlides.current, currSlide, animate);
-      Utils.setSelectionTo(activeComp, multipleSlides.current, currSlide);
+      CarouselUtils.jumpToSlide(mainSlidesRef.current, currentSlide, animate);
+      CarouselUtils.setSelectionTo(activeComponent, thumbnailSlidesRef.current, currentSlide);
     } else {
-      console.log("moved");
+      console.log("pointerMoved");
     }
   }
 
   return (
-    <div className="Carousel" ref={carousel}>
-      <View 
-        type={K.singleView} 
+    <div className="Carousel" ref={carouselRef}>
+      <SlidesContainer 
+        type={Const.MAIN_TYPE} 
         slides={slides} 
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
         clickHandler={clickHandler}
-        slidesRef={singleSlides}
-      ></View>
-      <View 
-        type={K.multipleView} 
+        slidesRef={mainSlidesRef}
+      />
+      <SlidesContainer 
+        type={Const.THUMBNAIL_TYPE} 
         slides={slides}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
         clickHandler={clickHandler}
-        slidesRef={multipleSlides}
-      ></View>
+        slidesRef={thumbnailSlidesRef}
+      />
     </div>
   )
 }

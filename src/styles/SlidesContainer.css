@@ -1,4 +1,4 @@
-.View {
+.SlidesContainer {
   position: relative;
   display: flex;
   width: 100%;
@@ -6,20 +6,20 @@
   touch-action: pan-y pinch-zoom;
 }
 
-.View.single {
+.SlidesContainer.main {
   height: 476px;
 }
 
-.View.multiple {
+.SlidesContainer.thumbnail {
   height: 68px;
 }
 
 @media screen and (max-width: 476px) {
-  .View.single {
+  .SlidesContainer.main {
     height: 100vw;
   }
 
-  .View.multiple {
+  .SlidesContainer.thumbnail {
     height: calc(100vw / 7);
   }
 }

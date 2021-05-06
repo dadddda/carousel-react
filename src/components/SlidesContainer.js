@@ -1,12 +1,12 @@
 import React from "react";
 
-import "../styles/View.css";
-import * as K from "../helpers/constants";
+import "../styles/SlidesContainer.css";
+import * as Const from "../helpers/constants";
 
 import Slides from "./Slides";
-import Buttons from "./Buttons";
+import ButtonsContainer from "./ButtonsContainer";
 
-const View = ({
+const SlidesContainer = ({
   type, 
   slides, 
   startActionHandler, 
@@ -17,7 +17,7 @@ const View = ({
 }) => {
   return (
     <div 
-      className={"View " + type} 
+      className={"SlidesContainer " + type} 
       onMouseDown={startActionHandler}
       onMouseMove={actionHandler}
       onMouseUp={stopActionHandler}
@@ -33,18 +33,17 @@ const View = ({
         slides={slides} 
         clickHandler={clickHandler}
         ref={slidesRef}
-      ></Slides>
+      />
       {
-        type === K.singleView 
-          ? <Buttons clickHandler={clickHandler}></Buttons> 
-          : <></>
+        type === Const.MAIN_TYPE 
+          && <ButtonsContainer clickHandler={clickHandler}/>
       }
     </div>
   );
 }
 
-View.defaultProps = {
-  type: K.singleView,
+SlidesContainer.defaultProps = {
+  type: Const.MAIN_TYPE,
   slides: [],
   startActionHandler: () => {},
   actionHandler: () => {},
@@ -52,4 +51,4 @@ View.defaultProps = {
   clickHandler: () => {}
 }
 
-export default View;
+export default SlidesContainer;

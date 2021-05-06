@@ -1,18 +1,18 @@
 import React from "react";
 
 import "../styles/Button.css";
-import * as K from "../helpers/constants";
+import * as Const from "../helpers/constants";
 
-const Button = ({pos, clickHandler}) => {
+const Button = ({type, clickHandler}) => {
   return (
-    <div className={"Button " + pos} onClick={clickHandler}>
+    <div className={"Button " + type} onClick={clickHandler}>
       <span>&lt;</span>
     </div>
   );
 }
 
 Button.defaultProps = {
-  pos: K.leftButton,
+  type: Const.LEFT_BUTTON,
   clickHandler: () => {}
 }
 

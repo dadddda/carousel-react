@@ -6,12 +6,12 @@
   overflow: hidden;
 }
 
-.Slide.single {
+.Slide.main {
   width: 476px;
   height: 476px;
 }
 
-.Slide.multiple {
+.Slide.thumbnail {
   width: 68px;
   height: 68px;
   cursor: pointer;
@@ -19,12 +19,12 @@
   transition: opacity 200ms ease-in-out;
 }
 
-.Slide.multiple:hover {
+.Slide.thumbnail:hover {
   opacity: 1;
   transition: opacity 200ms ease-in-out;
 }
 
-.Slide.multiple.selected {
+.Slide.thumbnail.selected {
   opacity: 1;
   transition: opacity 200ms ease-in-out;
 }
@@ -36,12 +36,12 @@
 }
 
 @media screen and (max-width: 476px) {
-  .Slide.single {
+  .Slide.main {
     width: 100vw;
     height: 100vw;
   }
 
-  .Slide.multiple {
+  .Slide.thumbnail {
     width: calc(100vw / 7);
     height: calc(100vw / 7);
   }
