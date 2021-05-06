@@ -7,6 +7,7 @@ import * as Utils from "../helpers/utils";
 import View from "./View";
 
 const Carousel = ({slides}) => {
+  const carousel = React.createRef();
   const singleSlides = React.createRef();
   const multipleSlides = React.createRef();
 
@@ -20,6 +21,24 @@ const Carousel = ({slides}) => {
   let slidesCount = 0;
 
   let currSlide = 0;
+
+  // window resize event initializer and handler
+  React.useEffect(() => {
+    let carouselWidth = carousel.current.offsetWidth;
+
+    const resizeHandler = () => {
+      let scaleFactor = carousel.current.offsetWidth / carouselWidth;
+      carouselWidth = carousel.current.offsetWidth;
+
+      Utils.keepRelative(carousel.current, singleSlides.current, scaleFactor);
+      Utils.keepRelative(carousel.current, multipleSlides.current, scaleFactor);
+    }
+
+    window.addEventListener("resize", resizeHandler)
+    return () => {
+      window.removeEventListener("resize", resizeHandler)
+    }
+  }, [])
 
   // start action handler
   const startActionHandler = (e) => {
@@ -58,8 +77,8 @@ const Carousel = ({slides}) => {
     }
 
     currSlide = Utils.updateSlideNum(startX, actionX, currSlide, slidesCount);
-    Utils.jumpToSlide(slidesComp, currSlide);
-    Utils.selectSlide(activeComp, multipleSlides.current, currSlide);
+    Utils.jumpToSlide(slidesComp, currSlide, true);
+    Utils.setSelectionTo(activeComp, multipleSlides.current, currSlide);
 
     inAction = false;
     console.log("stop");
@@ -72,6 +91,7 @@ const Carousel = ({slides}) => {
     if (moved === false) {
       console.log("click");
       
+      let animate = false;
       if (slidesComp === multipleSlides.current) {
         currSlide = currentTarget.id;
       } else {
@@ -79,18 +99,19 @@ const Carousel = ({slides}) => {
         if (currentTarget.classList.contains(K.leftButton)) mode = "decr";
         else mode = "incr";
 
+        animate = true;
         currSlide = Utils.modifySlideNum(currSlide, slidesCount, mode);
       }
 
-      Utils.jumpToSlide(singleSlides.current, currSlide);
-      Utils.selectSlide(activeComp, multipleSlides.current, currSlide);
+      Utils.jumpToSlide(singleSlides.current, currSlide, animate);
+      Utils.setSelectionTo(activeComp, multipleSlides.current, currSlide);
     } else {
       console.log("moved");
     }
   }
 
   return (
-    <div className="Carousel">
+    <div className="Carousel" ref={carousel}>
       <View 
         type={K.singleView} 
         slides={slides} 

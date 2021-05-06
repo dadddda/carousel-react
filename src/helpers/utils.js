@@ -22,22 +22,24 @@ const dragSlides = (activeComp, slidesComp, actionXDiff) => {
 
 // given slides component and slide number(0...n), repositions
 // slide with given slide number in the leftmost part of the viewport
-// with animation
-const jumpToSlide = (slidesComp, slideNum) => {
+// with or without animation
+const jumpToSlide = (slidesComp, slideNum, animate) => {
   let slidesCount = slidesComp.children.length;
   let slideWidth = slidesComp.offsetWidth / slidesCount;
   let newSlidesXPos = slideNum * slideWidth * -1;
 
-  slidesComp.classList.add(K.animated);
+  if (animate === true) slidesComp.classList.add(K.animated);
   slidesComp.style.left = newSlidesXPos + "px";
-  setTimeout(() => {
-    slidesComp.classList.remove(K.animated);
-  }, 200);
+  if (animate === true) {
+    setTimeout(() => {
+      slidesComp.classList.remove(K.animated);
+    }, 200);
+  }
 }
 
 // given active component, slides component and offset, repositions
-// slides component by given offset with animation
-const jumpByOffset = (activeComp, slidesComp, offset) => {
+// slides component by given offset with or without animation
+const jumpByOffset = (activeComp, slidesComp, offset, animate) => {
   if (offset === 0) return;
 
   let activeCompBr = activeComp.getBoundingClientRect();
@@ -46,11 +48,24 @@ const jumpByOffset = (activeComp, slidesComp, offset) => {
   let newSlidesXPos = slidesCompBr.left - activeCompBr.left;
   newSlidesXPos += offset;
 
-  slidesComp.classList.add(K.animated);
+  if (animate === true) slidesComp.classList.add(K.animated);
   slidesComp.style.left = newSlidesXPos + "px";
-  setTimeout(() => {
-    slidesComp.classList.remove(K.animated);
-  }, 200);
+  if (animate === true) {
+    setTimeout(() => {
+      slidesComp.classList.remove(K.animated);
+    }, 200);
+  }
+}
+
+// updates left position of given slides component according to given
+// scale factor
+const keepRelative = (carouselComp, slidesComp, scaleFactor) => {
+  let carouselCompBr = carouselComp.getBoundingClientRect();
+  let slidesCompBr = slidesComp.getBoundingClientRect();
+
+  let currLeft = slidesCompBr.left - carouselCompBr.left;
+  let newSlidesXPos = currLeft * scaleFactor;
+  slidesComp.style.left = newSlidesXPos + "px";
 }
 
 // according to given swipe start coordinate, end coordinate, current
@@ -97,7 +112,7 @@ const getActionX = (e) => {
 // removes CSS "selected" class from every slide and then adds to a slide 
 // with the given slide number from the given slides list. also repositions
 // given slides component if next slide is not fully visible
-const selectSlide = (activeComp, slidesComp, slideNum) => {
+const setSelectionTo = (activeComp, slidesComp, slideNum) => {
   let slides = slidesComp.childNodes;
   slides.forEach(slide => {
     slide.classList.remove(K.selectedSlide);
@@ -113,7 +128,7 @@ const selectSlide = (activeComp, slidesComp, slideNum) => {
     offset = activeCompBr.left - slideBr.left;
   }
 
-  jumpByOffset(activeComp, slidesComp, offset);
+  jumpByOffset(activeComp, slidesComp, offset, true);
   slides[slideNum].classList.add(K.selectedSlide);
 }
 
@@ -121,8 +136,9 @@ export {
   dragSlides, 
   jumpToSlide, 
   jumpByOffset,
+  keepRelative,
   updateSlideNum,
   modifySlideNum,
   getActionX,
-  selectSlide
+  setSelectionTo
 };
