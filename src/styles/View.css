@@ -3,13 +3,23 @@
   display: flex;
   width: 100%;
   overflow: hidden;
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
 }
 
 .View.single {
-  height: 340px;
+  height: 476px;
 }
 
 .View.multiple {
   height: 68px;
+}
+
+@media screen and (max-width: 476px) {
+  .View.single {
+    height: 100vw;
+  }
+
+  .View.multiple {
+    height: calc(100vw / 7);
+  }
 }

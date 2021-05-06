@@ -1,8 +1,14 @@
 .Carousel {
   display: flex;
   flex-direction: column;
-  width: 340px;
-  height: 408px;
+  width: 476px;
+  height: max-content;
   margin: auto;
   background-color: rgb(240, 240, 240);
+}
+
+@media screen and (max-width: 476px) {
+  .Carousel {
+    width: 100%;
+  }
 }
