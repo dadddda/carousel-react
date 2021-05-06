@@ -9,7 +9,7 @@ import Carousel from "./components/Carousel"
 const App = () => {
   return (
     <div className="App">
-      <Carousel slides={slides}></Carousel>
+      <Carousel slidesJson={slides}/>
     </div>
   );
 }

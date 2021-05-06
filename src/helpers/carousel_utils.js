@@ -25,17 +25,17 @@ const dragSlides = (slidesContainer, slidesComponent, actionXDiff) => {
 // given slides component and slide number(0...n), repositions
 // slide with given slide number in the leftmost part of the viewport
 // with or without animation
-const jumpToSlide = (slidesComponent, slideNumber, animate) => {
+const jumpToSlide = (slidesComponent, slideId, animate) => {
   let slidesCount = slidesComponent.children.length;
   let slideWidth = slidesComponent.offsetWidth / slidesCount;
-  let newSlidesXPos = slideNumber * slideWidth * -1;
+  let newSlidesXPos = slideId * slideWidth * -1;
 
   if (animate === true) slidesComponent.classList.add(Const.ANIMATED_SLIDES);
   slidesComponent.style.left = newSlidesXPos + "px";
   if (animate === true) {
     setTimeout(() => {
       slidesComponent.classList.remove(Const.ANIMATED_SLIDES);
-    }, 200);
+    }, Const.TRANSITION_DURATION);
   }
 }
 
@@ -55,7 +55,7 @@ const jumpByOffset = (slidesContainer, slidesComponent, offset, animate) => {
   if (animate === true) {
     setTimeout(() => {
       slidesComponent.classList.remove(Const.ANIMATED_SLIDES);
-    }, 200);
+    }, Const.TRANSITION_DURATION);
   }
 }
 
@@ -73,33 +73,30 @@ const keepRelative = (carouselComponent, slidesComponent, scaleFactor) => {
 // according to given swipe start coordinate, end coordinate, current
 // slide number and total number of slides, returns new value of slide
 // number(next/previous) which must be displayed
-const updateSlideNumber = (startX, endX, slideNumber, slidesCount) => {
-  let newSlide = slideNumber;
-
-  if (Math.abs(startX - endX) > Const.JUMP_THRESHOLD) {
-    if (startX > endX && slideNumber < slidesCount - 1) {
-      newSlide++;
-    } else if (startX < endX && slideNumber > 0) {
-      newSlide--;
-    }
+const updateSlideId = (swipeLength, slideId, slidesCount) => {
+  let newSlideId = slideId;
+  if (Math.abs(swipeLength) < Const.JUMP_THRESHOLD) return newSlideId;
+  
+  if (swipeLength > 0) {
+    if (slideId < slidesCount - 1) newSlideId++;
+  } else if (swipeLength < 0) {
+    if (slideId > 0) newSlideId--;
   }
 
-  return newSlide;
+  return newSlideId;
 }
 
 // increments/decrements given slide number according to constraints
-const modifySlideNumber = (slideNumber, slidesCount, mode) => {
-  if (mode === "") return;
-  
-  let newslideNumber = slideNumber;
+const modifySlideId = (slideId, slidesCount, mode) => {
+  let newSlideId = slideId;
 
   if (mode === "incr") {
-    if (slideNumber < slidesCount - 1) newslideNumber++;
+    if (slideId < slidesCount - 1) newSlideId++;
   } else if (mode === "decr") {
-    if (slideNumber > 0) newslideNumber--;
+    if (slideId > 0) newSlideId--;
   }
 
-  return newslideNumber;
+  return newSlideId;
 }
 
 // returns client x coordinate of touch/mouse action
@@ -114,14 +111,14 @@ const getActionX = (e) => {
 // removes CSS "selected" class from every slide and then adds to a slide 
 // with the given slide number from the given slides list. also repositions
 // given slides component if next slide is not fully visible
-const setSelectionTo = (slidesContainer, slidesComponent, slideNumber) => {
+const setSelectionTo = (slidesContainer, slidesComponent, slideId) => {
   let slides = slidesComponent.childNodes;
   slides.forEach(slide => {
     slide.classList.remove(Const.SELECTED_SLIDE);
   });
 
   let slidesContainerBr = slidesContainer.getBoundingClientRect();
-  let slideBr = slides[slideNumber].getBoundingClientRect();
+  let slideBr = slides[slideId].getBoundingClientRect();
 
   let offset = 0;
   if (slidesContainerBr.right < slideBr.right) {
@@ -131,7 +128,7 @@ const setSelectionTo = (slidesContainer, slidesComponent, slideNumber) => {
   }
 
   jumpByOffset(slidesContainer, slidesComponent, offset, true);
-  slides[slideNumber].classList.add(Const.SELECTED_SLIDE);
+  slides[slideId].classList.add(Const.SELECTED_SLIDE);
 }
 
 export {
@@ -139,8 +136,8 @@ export {
   jumpToSlide, 
   jumpByOffset,
   keepRelative,
-  updateSlideNumber,
-  modifySlideNumber,
+  updateSlideId,
+  modifySlideId,
   getActionX,
   setSelectionTo
 };

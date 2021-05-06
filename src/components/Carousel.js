@@ -6,7 +6,9 @@ import * as CarouselUtils from "../helpers/carousel_utils";
 
 import SlidesContainer from "./SlidesContainer";
 
-const Carousel = ({slides}) => {
+const Carousel = ({slidesJson}) => {
+  const [slides, setSlides] = React.useState(slidesJson);
+
   const carouselRef = React.createRef();
   const mainSlidesRef = React.createRef();
   const thumbnailSlidesRef = React.createRef();
@@ -20,7 +22,7 @@ const Carousel = ({slides}) => {
   let slidesComponent = null;
   let slidesCount = 0;
 
-  let currentSlide = 0;
+  let currentSlideId = 0;
 
   // window resize event initializer and handler
   React.useEffect(() => {
@@ -76,12 +78,13 @@ const Carousel = ({slides}) => {
       return;
     }
 
-    currentSlide = CarouselUtils.updateSlideNumber(startX, actionX, currentSlide, slidesCount);
-    CarouselUtils.jumpToSlide(slidesComponent, currentSlide, true);
-    CarouselUtils.setSelectionTo(activeSlidesContainer, thumbnailSlidesRef.current, currentSlide);
+    let swipeLength = startX - actionX;
+    currentSlideId = CarouselUtils.updateSlideId(swipeLength, currentSlideId, slidesCount);
+    CarouselUtils.jumpToSlide(slidesComponent, currentSlideId, true);
+    CarouselUtils.setSelectionTo(activeSlidesContainer, thumbnailSlidesRef.current, currentSlideId);
 
     inAction = false;
-    console.log("stop");
+    console.log("stop", currentSlideId);
   }
 
   // click handler
@@ -93,18 +96,18 @@ const Carousel = ({slides}) => {
       
       let animate = false;
       if (slidesComponent === thumbnailSlidesRef.current) {
-        currentSlide = currentTarget.id;
+        currentSlideId = currentTarget.id;
       } else {
         let mode = "";
         if (currentTarget.classList.contains(Const.LEFT_BUTTON)) mode = "decr";
         else mode = "incr";
 
         animate = true;
-        currentSlide = CarouselUtils.modifySlideNumber(currentSlide, slidesCount, mode);
+        currentSlideId = CarouselUtils.modifySlideId(currentSlideId, slidesCount, mode);
       }
 
-      CarouselUtils.jumpToSlide(mainSlidesRef.current, currentSlide, animate);
-      CarouselUtils.setSelectionTo(activeSlidesContainer, thumbnailSlidesRef.current, currentSlide);
+      CarouselUtils.jumpToSlide(mainSlidesRef.current, currentSlideId, animate);
+      CarouselUtils.setSelectionTo(activeSlidesContainer, thumbnailSlidesRef.current, currentSlideId);
     } else {
       console.log("pointerMoved");
     }
@@ -135,7 +138,7 @@ const Carousel = ({slides}) => {
 }
 
 Carousel.defaultProps = {
-  slides: []
+  slidesJson: []
 }
 
 export default Carousel;
