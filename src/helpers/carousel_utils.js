@@ -1,19 +1,19 @@
 import * as Const from "./constants";
 
-// given view component, it's slides component and swipe length,
+// given slides container, it's slides component and swipe length,
 // calculates new x(left) position for slides and assigns that new
 // value to slides component
-const dragSlides = (activeComponent, slidesComponent, actionXDiff) => {
+const dragSlides = (slidesContainer, slidesComponent, actionXDiff) => {
   if (actionXDiff === 0) return;
 
-  let activeComponentBr = activeComponent.getBoundingClientRect();
+  let slidesContainerBr = slidesContainer.getBoundingClientRect();
   let slidesComponentBr = slidesComponent.getBoundingClientRect();
 
-  let slidesXPos = slidesComponentBr.left - activeComponentBr.left;
+  let slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
   let newSlidesXPos = slidesXPos - actionXDiff;
 
   let slidesStartX = 0;
-  let slidesEndX = slidesComponentBr.width - activeComponentBr.width;
+  let slidesEndX = slidesComponentBr.width - slidesContainerBr.width;
   if (newSlidesXPos > 0) newSlidesXPos = slidesStartX;
   else if (newSlidesXPos < slidesEndX * -1) newSlidesXPos = slidesEndX * -1;
 
@@ -37,15 +37,15 @@ const jumpToSlide = (slidesComponent, slideNumber, animate) => {
   }
 }
 
-// given active component, slides component and offset, repositions
+// given slides container, slides component and offset, repositions
 // slides component by given offset with or without animation
-const jumpByOffset = (activeComponent, slidesComponent, offset, animate) => {
+const jumpByOffset = (slidesContainer, slidesComponent, offset, animate) => {
   if (offset === 0) return;
 
-  let activeComponentBr = activeComponent.getBoundingClientRect();
+  let slidesContainerBr = slidesContainer.getBoundingClientRect();
   let slidesComponentBr = slidesComponent.getBoundingClientRect();
 
-  let newSlidesXPos = slidesComponentBr.left - activeComponentBr.left;
+  let newSlidesXPos = slidesComponentBr.left - slidesContainerBr.left;
   newSlidesXPos += offset;
 
   if (animate === true) slidesComponent.classList.add(Const.ANIMATED_SLIDES);
@@ -112,23 +112,23 @@ const getActionX = (e) => {
 // removes CSS "selected" class from every slide and then adds to a slide 
 // with the given slide number from the given slides list. also repositions
 // given slides component if next slide is not fully visible
-const setSelectionTo = (activeComponent, slidesComponent, slideNumber) => {
+const setSelectionTo = (slidesContainer, slidesComponent, slideNumber) => {
   let slides = slidesComponent.childNodes;
   slides.forEach(slide => {
     slide.classList.remove(Const.SELECTED_SLIDE);
   });
 
-  let activeComponentBr = activeComponent.getBoundingClientRect();
+  let slidesContainerBr = slidesContainer.getBoundingClientRect();
   let slideBr = slides[slideNumber].getBoundingClientRect();
 
   let offset = 0;
-  if (activeComponentBr.right < slideBr.right) {
-    offset = activeComponentBr.right - slideBr.right;
-  } else if (activeComponentBr.left > slideBr.left) {
-    offset = activeComponentBr.left - slideBr.left;
+  if (slidesContainerBr.right < slideBr.right) {
+    offset = slidesContainerBr.right - slideBr.right;
+  } else if (slidesContainerBr.left > slideBr.left) {
+    offset = slidesContainerBr.left - slideBr.left;
   }
 
-  jumpByOffset(activeComponent, slidesComponent, offset, true);
+  jumpByOffset(slidesContainer, slidesComponent, offset, true);
   slides[slideNumber].classList.add(Const.SELECTED_SLIDE);
 }
 

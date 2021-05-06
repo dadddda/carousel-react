@@ -15,7 +15,7 @@ const Carousel = ({slides}) => {
   let pointerMoved = false;
   let startX = 0;
   let actionX = 0;
-  let activeComponent = null;
+  let activeSlidesContainer = null;
 
   let slidesComponent = null;
   let slidesCount = 0;
@@ -47,9 +47,9 @@ const Carousel = ({slides}) => {
 
     startX = CarouselUtils.getActionX(e);
     actionX = CarouselUtils.getActionX(e);
-    activeComponent = e.currentTarget;
+    activeSlidesContainer = e.currentTarget;
 
-    slidesComponent = activeComponent.children[0];
+    slidesComponent = activeSlidesContainer.children[0];
     slidesCount = slidesComponent.children.length;
 
     console.log("start");
@@ -63,7 +63,7 @@ const Carousel = ({slides}) => {
     let actionXDiff = actionX - CarouselUtils.getActionX(e);;
     actionX = CarouselUtils.getActionX(e);;
 
-    CarouselUtils.dragSlides(activeComponent, slidesComponent, actionXDiff);
+    CarouselUtils.dragSlides(activeSlidesContainer, slidesComponent, actionXDiff);
   }
 
   // stop action handler
@@ -78,7 +78,7 @@ const Carousel = ({slides}) => {
 
     currentSlide = CarouselUtils.updateSlideNumber(startX, actionX, currentSlide, slidesCount);
     CarouselUtils.jumpToSlide(slidesComponent, currentSlide, true);
-    CarouselUtils.setSelectionTo(activeComponent, thumbnailSlidesRef.current, currentSlide);
+    CarouselUtils.setSelectionTo(activeSlidesContainer, thumbnailSlidesRef.current, currentSlide);
 
     inAction = false;
     console.log("stop");
@@ -104,7 +104,7 @@ const Carousel = ({slides}) => {
       }
 
       CarouselUtils.jumpToSlide(mainSlidesRef.current, currentSlide, animate);
-      CarouselUtils.setSelectionTo(activeComponent, thumbnailSlidesRef.current, currentSlide);
+      CarouselUtils.setSelectionTo(activeSlidesContainer, thumbnailSlidesRef.current, currentSlide);
     } else {
       console.log("pointerMoved");
     }
