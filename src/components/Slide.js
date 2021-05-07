@@ -5,27 +5,27 @@ import * as Const from "../helpers/constants";
 
 const Slide = ({
   type, 
-  id, 
-  path,
-  filename, 
+  slideProps,
   clickHandler
 }) => {
   return (
     <div 
-      className={"Slide " + type + ((id === 0) ? " " + Const.SELECTED_SLIDE : "")}
-      id={id} 
+      className={
+        "Slide " + type + ((slideProps.id === 0) 
+          ? " " + Const.SELECTED_SLIDE 
+          : "")
+      }
+      id={slideProps.id} 
       onClick={clickHandler}
     >
-      <img src={path} alt={filename} draggable="false"></img>
+      <img src={slideProps.path} alt={slideProps.filename} draggable="false"></img>
     </div>
   )
 }
 
 Slide.defaultProps = {
   type: Const.MAIN_TYPE,
-  id: "",
-  path: "",
-  filename: "",
+  slideProps: {},
   clickHandler: () => {}
 }
 

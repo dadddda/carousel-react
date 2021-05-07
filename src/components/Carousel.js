@@ -127,7 +127,7 @@ const Carousel = ({slidesData}) => {
     <div className="Carousel" ref={carouselParams.carouselRef}>
       <SlidesContainer 
         type={Const.MAIN_TYPE} 
-        slides={mainSlidesArr} 
+        slidesArr={mainSlidesArr} 
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
@@ -136,7 +136,7 @@ const Carousel = ({slidesData}) => {
       />
       <SlidesContainer 
         type={Const.THUMBNAIL_TYPE} 
-        slides={thumbnailSlidesArr}
+        slidesArr={thumbnailSlidesArr}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}

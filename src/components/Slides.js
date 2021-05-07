@@ -7,18 +7,16 @@ import Slide from "./Slide";
 
 const Slides = React.forwardRef(({
   type, 
-  slides, 
+  slidesArr, 
   clickHandler
 }, ref) => {
   return (
     <div className="Slides" ref={ref}>
-      {slides.map(slide => (
+      {slidesArr.map(slideProps => (
         <Slide 
-          key={slide.id} 
-          type={type} 
-          id={slide.id} 
-          path={slide.path} 
-          filename={slide.filename}
+          key={slideProps.id} 
+          type={type}
+          slideProps={slideProps}
           clickHandler={clickHandler}
         />
       ))}
@@ -28,7 +26,7 @@ const Slides = React.forwardRef(({
 
 Slides.defaultProps = {
   type: Const.MAIN_TYPE,
-  slides: [],
+  slidesArr: [],
   clickHandler: () => {}
 }
 
