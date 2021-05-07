@@ -6,9 +6,16 @@ import * as CarouselUtils from "../helpers/carousel_utils";
 
 import SlidesContainer from "./SlidesContainer";
 
-const Carousel = ({slidesJson}) => {
-  const [mainSlidesArr, setMainSlides] = React.useState(slidesJson);
-  const [thumbnailSlidesArr, setThumbnailSlides] = React.useState(slidesJson);
+const Carousel = ({slidesData}) => {
+  let mainSlidesId = 0;
+  const [mainSlidesArr, setMainSlides] = React.useState(slidesData.map(elem => (
+    {...elem, id: mainSlidesId++}
+  )));
+
+  let thumbnailSlidesId = 0;
+  const [thumbnailSlidesArr, setThumbnailSlides] = React.useState(slidesData.map(elem => (
+    {...elem, id: thumbnailSlidesId++}
+  )));
 
   const carouselParamsRef = React.useRef({
       inAction: false,
@@ -141,7 +148,7 @@ const Carousel = ({slidesJson}) => {
 }
 
 Carousel.defaultProps = {
-  slidesJson: []
+  slidesData: []
 }
 
 export default Carousel;
