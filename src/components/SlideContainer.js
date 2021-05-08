@@ -1,9 +1,9 @@
 import React from "react";
 
-import "../styles/Slide.css";
+import "../styles/SlideContainer.css";
 import * as Const from "../helpers/constants";
 
-const Slide = ({
+const SlideContainer = ({
   type, 
   slideProps,
   clickHandler
@@ -11,7 +11,7 @@ const Slide = ({
   return (
     <div 
       className={
-        "Slide " + type + ((slideProps.id === 0) 
+        "SlideContainer " + type + ((slideProps.id === 0) 
           ? " " + Const.SELECTED_SLIDE 
           : "")
       }
@@ -23,10 +23,10 @@ const Slide = ({
   )
 }
 
-Slide.defaultProps = {
+SlideContainer.defaultProps = {
   type: Const.MAIN_TYPE,
   slideProps: {},
   clickHandler: () => {}
 }
 
-export default Slide;
+export default SlideContainer;

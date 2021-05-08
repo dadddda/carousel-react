@@ -3,7 +3,7 @@ import React from "react";
 import "../styles/Slides.css";
 import * as Const from "../helpers/constants";
 
-import Slide from "./Slide";
+import SlideContainer from "./SlideContainer";
 
 const Slides = React.forwardRef(({
   type, 
@@ -13,7 +13,7 @@ const Slides = React.forwardRef(({
   return (
     <div className="Slides" ref={ref}>
       {slidesArr.map(slideProps => (
-        <Slide 
+        <SlideContainer 
           key={slideProps.id} 
           type={type}
           slideProps={slideProps}
