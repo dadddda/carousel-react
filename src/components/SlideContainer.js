@@ -3,6 +3,8 @@ import React from "react";
 import "../styles/SlideContainer.css";
 import * as Const from "../helpers/constants";
 
+import Slide from "./Slide";
+
 const SlideContainer = ({
   type, 
   slideProps,
@@ -12,13 +14,13 @@ const SlideContainer = ({
     <div 
       className={
         "SlideContainer " + type + ((slideProps.id === 0) 
-          ? " " + Const.SELECTED_SLIDE 
+          ? " " + Const.SELECTED_SLIDE
           : "")
       }
       id={slideProps.id} 
       onClick={clickHandler}
     >
-      <img src={slideProps.path} alt={slideProps.filename} draggable="false"/>
+      <Slide type={type} slideProps={slideProps}/>
     </div>
   )
 }
