@@ -1,8 +1,6 @@
 # dependencies
 /node_modules
 
-# testing
-/coverage
-
 # output files
 main.js
+main.js.LICENSE.txt

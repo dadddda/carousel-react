@@ -1,6 +1,6 @@
-# Carousel component using React.js
+# React.js carousel component 
 
-This carousel component works on desktop and mobile devices with it's responsive design. It works with any HTML content. Supports swipes, button navigation, thumbnails for better user experience and infinite scroll. It's implemented without using any third-party libraries.
+This carousel component works on desktop and mobile devices with it's responsive design. It works with any HTML content. Supports swipes, button navigation, thumbnails and infinite scroll. It's implemented without using any third-party libraries.
 
 ### Install
 
@@ -37,7 +37,7 @@ There are few things you should know:
 2. Each map element of the array represents individual slide.
 3. The size of slides data array decides how many slides render inside carousel component.
 4. You can leave map elements empty as `"id"` keys are added automatically inside carousel component, but feel free to add as many additional props as you wish that you will be using inside each slide component.
-5. You only need to modify `Slide.js` file according to your content.
+5. You only need to modify `Slide.js`/`Slide.css` files according to your content.
 
 In this example map elements include `"path"` and `"filename"` keys used for image `src` and `alt` respectively:
 ```JSON

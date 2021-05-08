@@ -80,7 +80,6 @@ const Carousel = ({slidesData}) => {
 
   // action handler
   const actionHandler = (e) => {
-    console.log(e);
     if (e.type === "mousemove" && carouselParams.isTouch === true) return;
     if (carouselParams.inAction === false) return;
     carouselParams.pointerMoved = true;

@@ -9,7 +9,7 @@ module.exports = {
   },
   target: "web",
   devServer: {
-    port: "8080",
+    port: 8080,
     contentBase: path.resolve(__dirname, "public"),
     hot: true
   },
