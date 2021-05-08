@@ -7,7 +7,8 @@ const LEFT_BUTTON = "left";
 const RIGHT_BUTTON = "right";
 
 // ...
-const JUMP_THRESHOLD = 100;
+const JUMP_THRESHOLD = 75;
+const DRAG_THRESHOLD = 25;
 const TRANSITION_DURATION = 200
 
 export {
@@ -18,5 +19,6 @@ export {
   LEFT_BUTTON,
   RIGHT_BUTTON,
   JUMP_THRESHOLD,
+  DRAG_THRESHOLD,
   TRANSITION_DURATION
 };

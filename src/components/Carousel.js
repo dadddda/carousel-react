@@ -20,6 +20,7 @@ const Carousel = ({slidesData}) => {
   const carouselParamsRef = React.useRef({
       inAction: false,
       isTouch: false,
+      isScroll: false,
       pointerMoved: false,
       startX: 0,
       actionX: 0,
@@ -49,11 +50,17 @@ const Carousel = ({slidesData}) => {
                                  carouselParams.thumbnailSlidesRef.current, scaleFactor);
     }
 
-    window.addEventListener("resize", resizeHandler)
-    return () => {
-      window.removeEventListener("resize", resizeHandler)
+    const scrollHandler = () => {
+      carouselParams.isScroll = true;
     }
-  }, [mainSlidesArr])
+
+    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("scroll", scrollHandler);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener("scroll", scrollHandler);
+    }
+  }, [mainSlidesArr]);
 
   // start action handler
   const startActionHandler = (e) => {
@@ -73,12 +80,17 @@ const Carousel = ({slidesData}) => {
 
   // action handler
   const actionHandler = (e) => {
+    console.log(e);
     if (e.type === "mousemove" && carouselParams.isTouch === true) return;
     if (carouselParams.inAction === false) return;
     carouselParams.pointerMoved = true;
-
+    
     let actionXDiff = carouselParams.actionX - CarouselUtils.getActionX(e);
     carouselParams.actionX = CarouselUtils.getActionX(e);
+    
+    let swipeLength = carouselParams.startX - carouselParams.actionX;
+    if (Math.abs(swipeLength) < Const.DRAG_THRESHOLD 
+        || carouselParams.isScroll === true) return;
 
     CarouselUtils.dragSlides(carouselParams.slidesContainer, carouselParams.slidesComponent, 
                              actionXDiff, mainSlidesArr, setMainSlides);
@@ -100,6 +112,11 @@ const Carousel = ({slidesData}) => {
     }
 
     let swipeLength = carouselParams.startX - carouselParams.actionX;
+    if (carouselParams.isScroll) {
+      carouselParams.isScroll = false;
+      swipeLength = 0;
+    }
+
     CarouselUtils.updateCarousel(carouselParams, mainSlidesArr, swipeLength);
 
     carouselParams.inAction = false;
