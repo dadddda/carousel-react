@@ -18,7 +18,7 @@ const Slide = ({
       id={slideProps.id} 
       onClick={clickHandler}
     >
-      <img src={slideProps.path} alt={slideProps.filename} draggable="false"></img>
+      <img src={slideProps.path} alt={slideProps.filename} draggable="false"/>
     </div>
   )
 }
