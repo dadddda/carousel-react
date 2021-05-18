@@ -41,7 +41,7 @@ const Carousel = ({slidesData}) => {
     let carouselWidth = carouselParams.carouselRef.current.offsetWidth;
 
     const resizeHandler = () => {
-      let scaleFactor = carouselParams.carouselRef.current.offsetWidth / carouselWidth;
+      const scaleFactor = carouselParams.carouselRef.current.offsetWidth / carouselWidth;
       carouselWidth = carouselParams.carouselRef.current.offsetWidth;
   
       CarouselUtils.keepRelative(carouselParams.carouselRef.current, 
@@ -84,10 +84,10 @@ const Carousel = ({slidesData}) => {
     if (carouselParams.inAction === false) return;
     carouselParams.pointerMoved = true;
     
-    let actionXDiff = carouselParams.actionX - CarouselUtils.getActionX(e);
+    const actionXDiff = carouselParams.actionX - CarouselUtils.getActionX(e);
     carouselParams.actionX = CarouselUtils.getActionX(e);
     
-    let swipeLength = carouselParams.startX - carouselParams.actionX;
+    const swipeLength = carouselParams.startX - carouselParams.actionX;
     if (Math.abs(swipeLength) < Const.DRAG_THRESHOLD 
         || carouselParams.isScroll === true) return;
 
@@ -123,11 +123,11 @@ const Carousel = ({slidesData}) => {
 
   // click handler
   const clickHandler = (e) => {
-    let currentTarget = e.currentTarget;
+    const currentTarget = e.currentTarget;
 
     if (carouselParams.pointerMoved === false) {
       if (carouselParams.slidesComponent === carouselParams.thumbnailSlidesRef.current) {
-        let newSlideId = parseInt(currentTarget.id);
+        const newSlideId = parseInt(currentTarget.id);
         CarouselUtils.goToSlide(carouselParams, mainSlidesArr, newSlideId);
       } else {
         if (currentTarget.classList.contains(Const.LEFT_BUTTON)) {

@@ -15,9 +15,9 @@ let summoned = false;
  * @returns x(left) position of slides component relative to slides container
  */
 const getSlidesXPos = (slidesContainer, slidesComponent) => {
-  let slidesContainerBr = slidesContainer.getBoundingClientRect();
-  let slidesComponentBr = slidesComponent.getBoundingClientRect();
-  let slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
+  const slidesContainerBr = slidesContainer.getBoundingClientRect();
+  const slidesComponentBr = slidesComponent.getBoundingClientRect();
+  const slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
 
   return slidesXPos;
 }
@@ -34,7 +34,7 @@ const getSlidesXPos = (slidesContainer, slidesComponent) => {
  */
 const appendSlide = (slidesArr, setSlides) => {
   const newSlides = [...slidesArr];
-  let firstElement = newSlides.shift();
+  const firstElement = newSlides.shift();
   newSlides.push(firstElement);
   setSlides(newSlides);
 
@@ -53,7 +53,7 @@ const appendSlide = (slidesArr, setSlides) => {
  */
 const prependSlide = (slidesArr, setSlides) => {
   const newSlides = [...slidesArr];
-  let lastElement = newSlides.pop();
+  const lastElement = newSlides.pop();
   newSlides.unshift(lastElement);
   setSlides(newSlides);
 
@@ -79,8 +79,8 @@ const prependSlide = (slidesArr, setSlides) => {
  */
 const summonSlide = (slidesContainer, slidesComponent, append, slidesArr, setSlides) => {
   summoned = true;
-  let slidesXPos = getSlidesXPos(slidesContainer, slidesComponent);
-  let slide = slidesComponent.childNodes[0];
+  const slidesXPos = getSlidesXPos(slidesContainer, slidesComponent);
+  const slide = slidesComponent.childNodes[0];
   let newSlidesXPos = slidesXPos;
 
   let changedSlides = [];
@@ -112,19 +112,19 @@ const summonSlide = (slidesContainer, slidesComponent, append, slidesArr, setSli
  * @param {*} setSlides setter for React state of slides
  * @returns nothing
  */
-export const dragSlides = (slidesContainer, slidesComponent, actionXDiff, slidesArr, setSlides) => {
+const dragSlides = (slidesContainer, slidesComponent, actionXDiff, slidesArr, setSlides) => {
   if (actionXDiff === 0) return;
 
-  let slidesContainerBr = slidesContainer.getBoundingClientRect();
-  let slidesComponentBr = slidesComponent.getBoundingClientRect();
+  const slidesContainerBr = slidesContainer.getBoundingClientRect();
+  const slidesComponentBr = slidesComponent.getBoundingClientRect();
 
   if (slidesContainerBr.width > slidesComponentBr.width) return;
 
-  let slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
+  const slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
   let newSlidesXPos = slidesXPos - actionXDiff;
 
-  let slidesStartX = 0;
-  let slidesEndX = slidesComponentBr.width - slidesContainerBr.width;
+  const slidesStartX = 0;
+  const slidesEndX = slidesComponentBr.width - slidesContainerBr.width;
 
   if (newSlidesXPos > 0) {
     if (slidesContainer.classList.contains(Const.MAIN_TYPE) && summoned === false) {
@@ -171,11 +171,11 @@ const indexOfId = (slides, slideId) => {
  * @param {*} animate animation toggler boolean value
  */
 const jumpToSlide = (slidesComponent, slideId, slidesArr, animate) => {
-  let actualSlideId = indexOfId(slidesArr, slideId);
+  const actualSlideId = indexOfId(slidesArr, slideId);
 
-  let slidesCount = slidesComponent.children.length;
-  let slideWidth = slidesComponent.offsetWidth / slidesCount;
-  let newSlidesXPos = actualSlideId * slideWidth * -1;
+  const slidesCount = slidesComponent.children.length;
+  const slideWidth = slidesComponent.offsetWidth / slidesCount;
+  const newSlidesXPos = actualSlideId * slideWidth * -1;
 
   if (animate === true) slidesComponent.classList.add(Const.ANIMATED_SLIDES);
   slidesComponent.style.left = newSlidesXPos + "px";
@@ -199,8 +199,7 @@ const jumpToSlide = (slidesComponent, slideId, slidesArr, animate) => {
 const jumpByOffset = (slidesContainer, slidesComponent, offset, animate) => {
   if (offset === 0) return;
 
-  let newSlidesXPos = getSlidesXPos(slidesContainer, slidesComponent);
-  newSlidesXPos += offset;
+  const newSlidesXPos = getSlidesXPos(slidesContainer, slidesComponent) + offset;
 
   if (animate === true) slidesComponent.classList.add(Const.ANIMATED_SLIDES);
   slidesComponent.style.left = newSlidesXPos + "px";
@@ -222,13 +221,13 @@ const jumpByOffset = (slidesContainer, slidesComponent, offset, animate) => {
  * @param {*} slideId id of a slide to be repositioned
  */
 const setSelectionTo = (slidesContainer, slidesComponent, slideId) => {
-  let slides = slidesComponent.childNodes;
+  const slides = slidesComponent.childNodes;
   slides.forEach(slide => {
     slide.classList.remove(Const.SELECTED_SLIDE);
   });
 
-  let slidesContainerBr = slidesContainer.getBoundingClientRect();
-  let slideBr = slides[slideId].getBoundingClientRect();
+  const slidesContainerBr = slidesContainer.getBoundingClientRect();
+  const slideBr = slides[slideId].getBoundingClientRect();
 
   let offset = 0;
   if (slidesContainerBr.right < slideBr.right) {
@@ -274,9 +273,9 @@ const updateSlideId = (swipeLength, slideId, slidesCount) => {
  * @param {*} e event parameter of touch/mouse action
  * @returns client x coordinate of touch/mouse action
  */
-export const getActionX = (e) => {
+const getActionX = (e) => {
   let coordinateData = e;
-  let touch = e.touches;
+  const touch = e.touches;
   if (touch !== undefined) coordinateData = touch[0];
 
   return coordinateData.clientX;
@@ -313,12 +312,12 @@ const isLast = (slidesArr, slideId) => {
  * @param {*} slidesComponent slides component located inside a slides container
  * @param {*} scaleFactor scale factor
  */
-export const keepRelative = (carouselComponent, slidesComponent, scaleFactor) => {
-  let carouselComponentBr = carouselComponent.getBoundingClientRect();
-  let slidesComponentBr = slidesComponent.getBoundingClientRect();
+const keepRelative = (carouselComponent, slidesComponent, scaleFactor) => {
+  const carouselComponentBr = carouselComponent.getBoundingClientRect();
+  const slidesComponentBr = slidesComponent.getBoundingClientRect();
 
-  let currLeft = slidesComponentBr.left - carouselComponentBr.left;
-  let newSlidesXPos = currLeft * scaleFactor;
+  const currLeft = slidesComponentBr.left - carouselComponentBr.left;
+  const newSlidesXPos = currLeft * scaleFactor;
   slidesComponent.style.left = newSlidesXPos + "px";
 }
 
@@ -331,7 +330,7 @@ export const keepRelative = (carouselComponent, slidesComponent, scaleFactor) =>
  * @param {*} slidesArr array of React state of slides
  * @param {*} swipeLength swipe length
  */
-export const updateCarousel = (params, slidesArr, swipeLength) => {
+const updateCarousel = (params, slidesArr, swipeLength) => {
   params.currSlideId = updateSlideId(swipeLength, params.currSlideId, params.slidesCount);
   jumpToSlide(params.slidesComponent, params.currSlideId, slidesArr, true);
   setSelectionTo(params.slidesContainer, params.thumbnailSlidesRef.current, params.currSlideId);
@@ -344,8 +343,8 @@ export const updateCarousel = (params, slidesArr, swipeLength) => {
  * @param {*} slidesArr array of React state of slides
  * @param {*} setSlides setter for React state of slides
  */
-export const goToNextSlide = (params, slidesArr, setSlides) => {
-  let summon = isLast(slidesArr, params.currSlideId);
+const goToNextSlide = (params, slidesArr, setSlides) => {
+  const summon = isLast(slidesArr, params.currSlideId);
 
   let changedSlidesArr = slidesArr;
   if (summon) {
@@ -363,13 +362,13 @@ export const goToNextSlide = (params, slidesArr, setSlides) => {
  * @param {*} slidesArr array of React state of slides
  * @param {*} setSlides setter for React state of slides
  */
-export const goToPreviousSlide = (params, slidesArr, setSlides) => {
-  let summon = isFirst(slidesArr, params.currSlideId);
+const goToPreviousSlide = (params, slidesArr, setSlides) => {
+  const summon = isFirst(slidesArr, params.currSlideId);
 
   let changedSlidesArr = slidesArr;
   if (summon) {
     changedSlidesArr = summonSlide(params.slidesContainer, params.slidesComponent, 
-                       false, slidesArr, setSlides);
+                                   false, slidesArr, setSlides);
   }
 
   updateCarousel(params, changedSlidesArr, -1 * Const.JUMP_THRESHOLD);
@@ -383,8 +382,18 @@ export const goToPreviousSlide = (params, slidesArr, setSlides) => {
  * @param {*} slidesArr array of React state of slides
  * @param {*} slideId slide id on which jump is performed
  */
-export const goToSlide = (params, slidesArr, slideId) => {
+const goToSlide = (params, slidesArr, slideId) => {
   params.currSlideId = slideId;
   jumpToSlide(params.mainSlidesRef.current, params.currSlideId, slidesArr, false);
   setSelectionTo(params.slidesContainer, params.thumbnailSlidesRef.current, params.currSlideId);
+}
+
+export {
+  dragSlides,
+  getActionX,
+  keepRelative,
+  updateCarousel,
+  goToNextSlide,
+  goToPreviousSlide,
+  goToSlide
 }
