@@ -20,10 +20,12 @@ const Carousel = ({slidesData}) => {
   const carouselParamsRef = React.useRef({
       inAction: false,
       isTouch: false,
+      isSwipe: false,
       isScroll: false,
       pointerMoved: false,
-      startX: 0,
-      actionX: 0,
+      isMoveAction: false,
+      startCoord: {x: 0, y: 0},
+      actionCoord: {x: 0, y: 0},
       slidesContainer: null,
       slidesComponent: null,
       slidesCount: 0,
@@ -39,7 +41,6 @@ const Carousel = ({slidesData}) => {
   // window resize event initializer and handler
   React.useEffect(() => {
     let carouselWidth = carouselParams.carouselRef.current.offsetWidth;
-
     const resizeHandler = () => {
       const scaleFactor = carouselParams.carouselRef.current.offsetWidth / carouselWidth;
       carouselWidth = carouselParams.carouselRef.current.offsetWidth;
@@ -50,15 +51,9 @@ const Carousel = ({slidesData}) => {
                                  carouselParams.thumbnailSlidesRef.current, scaleFactor);
     }
 
-    const scrollHandler = () => {
-      carouselParams.isScroll = true;
-    }
-
     window.addEventListener("resize", resizeHandler);
-    window.addEventListener("scroll", scrollHandler);
     return () => {
       window.removeEventListener("resize", resizeHandler);
-      window.removeEventListener("scroll", scrollHandler);
     }
   }, [mainSlidesArr]);
 
@@ -69,9 +64,10 @@ const Carousel = ({slidesData}) => {
 
     carouselParams.inAction = true;
     carouselParams.pointerMoved = false;
+    carouselParams.isMoveAction = false;
 
-    carouselParams.startX = CarouselUtils.getActionX(e);
-    carouselParams.actionX = CarouselUtils.getActionX(e);
+    carouselParams.startCoord = CarouselUtils.getActionCoords(e);
+    carouselParams.actionCoord = CarouselUtils.getActionCoords(e);
     carouselParams.slidesContainer = e.currentTarget;
 
     carouselParams.slidesComponent = carouselParams.slidesContainer.children[0];
@@ -82,15 +78,27 @@ const Carousel = ({slidesData}) => {
   const actionHandler = (e) => {
     if (e.type === "mousemove" && carouselParams.isTouch === true) return;
     if (carouselParams.inAction === false) return;
-    
-    const actionXDiff = carouselParams.actionX - CarouselUtils.getActionX(e);
-    carouselParams.actionX = CarouselUtils.getActionX(e);
-    
-    const swipeLength = carouselParams.startX - carouselParams.actionX;
-    if (Math.abs(swipeLength) < Const.DRAG_THRESHOLD 
-        || carouselParams.isScroll === true) return;
-
     carouselParams.pointerMoved = true;
+
+    const actionXDiff = carouselParams.actionCoord.x - CarouselUtils.getActionCoords(e).x;
+    carouselParams.actionCoord = CarouselUtils.getActionCoords(e);
+
+    const swipeLengthX = Math.abs(carouselParams.startCoord.x - carouselParams.actionCoord.x);
+    const swipeLengthY = Math.abs(carouselParams.startCoord.y - carouselParams.actionCoord.y);
+    
+    if (swipeLengthX > swipeLengthY && carouselParams.isScroll === false) {
+      carouselParams.isSwipe = true;
+    } else if (swipeLengthX <= swipeLengthY && carouselParams.isSwipe === false) {
+      carouselParams.isScroll = true;
+    }
+
+    if (carouselParams.isScroll) {
+      carouselParams.startCoord = CarouselUtils.getActionCoords(e);
+      return;
+    }
+
+    if (swipeLengthX < Const.DRAG_THRESHOLD) return;
+    carouselParams.isMoveAction = true;
 
     CarouselUtils.dragSlides(carouselParams.slidesContainer, carouselParams.slidesComponent, 
                              actionXDiff, mainSlidesArr, setMainSlides);
@@ -105,18 +113,16 @@ const Carousel = ({slidesData}) => {
 
     if (carouselParams.inAction === false) return;
 
+    carouselParams.isSwipe = false;
+    carouselParams.isScroll = false;
+
     if (carouselParams.pointerMoved === false 
         || carouselParams.slidesComponent === carouselParams.thumbnailSlidesRef.current) {
       carouselParams.inAction = false;
       return;
     }
 
-    let swipeLength = carouselParams.startX - carouselParams.actionX;
-    if (carouselParams.isScroll) {
-      carouselParams.isScroll = false;
-      swipeLength = 0;
-    }
-
+    let swipeLength = carouselParams.startCoord.x - carouselParams.actionCoord.x;
     CarouselUtils.updateCarousel(carouselParams, mainSlidesArr, swipeLength);
 
     carouselParams.inAction = false;
@@ -126,7 +132,7 @@ const Carousel = ({slidesData}) => {
   const clickHandler = (e) => {
     const currentTarget = e.currentTarget;
 
-    if (carouselParams.pointerMoved === false) {
+    if (carouselParams.isMoveAction === false) {
       if (carouselParams.slidesComponent === carouselParams.thumbnailSlidesRef.current) {
         const newSlideId = parseInt(currentTarget.id);
         CarouselUtils.goToSlide(carouselParams, mainSlidesArr, newSlideId);

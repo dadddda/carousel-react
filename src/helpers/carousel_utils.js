@@ -265,20 +265,20 @@ const updateSlideId = (swipeLength, slideId, slidesCount) => {
 }
 
 /**
- * Returns client x coordinate of touch/mouse action from given
+ * Returns client x and y coordinates of touch/mouse action from given
  * event parameter.
  * 
  * If touch action is performed, it only returns data of the first 
  * touch point.
  * @param {*} e event parameter of touch/mouse action
- * @returns client x coordinate of touch/mouse action
+ * @returns client x and y coordinates of touch/mouse action
  */
-const getActionX = (e) => {
+const getActionCoords = (e) => {
   let coordinateData = e;
   const touch = e.touches;
   if (touch !== undefined) coordinateData = touch[0];
 
-  return coordinateData.clientX;
+  return {x: coordinateData.clientX, y: coordinateData.clientY};
 }
 
 /**
@@ -390,7 +390,7 @@ const goToSlide = (params, slidesArr, slideId) => {
 
 export {
   dragSlides,
-  getActionX,
+  getActionCoords,
   keepRelative,
   updateCarousel,
   goToNextSlide,

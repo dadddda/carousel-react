@@ -5,9 +5,9 @@
   user-select: none;
 }
 
-html, body {
-  width: 100vw;
+body {
   height: 100vh;
+  min-height: 100vh;
 }
 
 #root {
