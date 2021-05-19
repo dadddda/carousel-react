@@ -49,13 +49,13 @@ const App = () => {
     <div className="App">
       <Carousel 
         slidesData={imageSlides} 
-        SlideTemplate={ImageSlide}
-        ThumbnailTemplate={ImageThumbnail}
+        slideTemplate={ImageSlide}
+        thumbnailTemplate={ImageThumbnail}
       />
       <Carousel 
         slidesData={textSlides} 
-        SlideTemplate={TextSlide}
-        ThumbnailTemplate={TextThumbnail}
+        slideTemplate={TextSlide}
+        thumbnailTemplate={TextThumbnail}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 # React.js carousel component 
 
-This carousel component works on desktop and mobile devices with it's responsive design. It works with any HTML content. Supports swipes, button navigation, thumbnails and infinite scroll. It's implemented without using any third-party libraries.
+This carousel component works on desktop and mobile devices with its responsive design. It works with any HTML content. Supports swipes, button navigation, thumbnails and infinite scroll. It's implemented without using any third-party libraries.
 
 ### Install
 
@@ -31,16 +31,16 @@ All the necessary files for the carousel component are located in `src/component
 
 For demonstration purposes `App.js` contains two types of carousel components. First component shows images which are located inside `public/images` folder and the data about the images is stored inside `image-slides.json` file located in `src/data` folder. The second carousel component shows texts and the data about the texts is stored inside `text-slides.json` file located also in `src/data` folder.
 
-There are few things you should know:
+There are a few things you should know:
 
-1. Carousel component takes array of map elements as it's prop `slidesData`. 
+1. Carousel component takes an array of map elements as its prop `slidesData`. 
 2. Each map element of the array represents individual slide.
-3. The size of slides data array decides how many slides render inside carousel component.
+3. The size of `slidesData` array decides how many slides render inside carousel component.
 4. You can leave map elements empty as `"id"` keys are added automatically inside carousel component, but feel free to add as many additional props as you wish that you will be using inside each slide component(Which are also passed as props).
-5. In addition to `slidesData` carousel component also takes two template components `SlideTemplate` and `ThumbnailTemplate`. This two components are created by you and are rendered as main slide and as thumbnail slide respectively. Because of that the carousel component supports any **HTML** content.
+5. In addition to `slidesData` carousel component also takes two template components as `slideTemplate` and `thumbnailTemplate` props. This two components are created by you and are rendered as main slide and as thumbnail slide respectively. As a result the carousel component supports any **HTML** content.
 6. You only need to create **JSON** file and modify `App.js` and `Slide.css` files according to your content.
 
-In the below example carousel component of images is shown. For the text variant look inside the code. The implementation approach is identical.
+In the example below carousel component of images is shown. For the text variant look inside the code. The implementation approach is identical.
 
 Map elements for carousel component of images include `"imgPath"`, `"thumbnailPath"` and `"filename"` keys used for image/thumbnail `src` and `alt` attributes:
 ```JSON
@@ -81,8 +81,8 @@ const App = () => {
     <div className="App">
       <Carousel 
         slidesData={imageSlides} 
-        SlideTemplate={ImageSlide}
-        ThumbnailTemplate={ImageThumbnail}
+        slideTemplate={ImageSlide}
+        thumbnailTemplate={ImageThumbnail}
       />
     </div>
   );

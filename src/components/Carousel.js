@@ -8,8 +8,8 @@ import SlidesContainer from "./SlidesContainer";
 
 const Carousel = ({
   slidesData,
-  SlideTemplate,
-  ThumbnailTemplate
+  slideTemplate,
+  thumbnailTemplate
 }) => {
   let mainSlidesId = 0;
   const [mainSlidesArr, setMainSlides] = React.useState(slidesData.map(elem => (
@@ -159,7 +159,7 @@ const Carousel = ({
       <SlidesContainer 
         type={Const.MAIN_TYPE} 
         slidesArr={mainSlidesArr} 
-        SlideTemplate={SlideTemplate}
+        slideTemplate={slideTemplate}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
@@ -169,7 +169,7 @@ const Carousel = ({
       <SlidesContainer 
         type={Const.THUMBNAIL_TYPE} 
         slidesArr={thumbnailSlidesArr}
-        SlideTemplate={ThumbnailTemplate}
+        slideTemplate={thumbnailTemplate}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}

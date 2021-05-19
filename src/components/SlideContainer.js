@@ -8,7 +8,7 @@ import Slide from "./Slide";
 const SlideContainer = ({
   type, 
   slideProps,
-  SlideTemplate,
+  slideTemplate,
   clickHandler
 }) => {
   return (
@@ -21,7 +21,7 @@ const SlideContainer = ({
       id={slideProps.id} 
       onClick={clickHandler}
     >
-      <Slide type={type} slideProps={slideProps} SlideTemplate={SlideTemplate}/>
+      <Slide type={type} slideProps={slideProps} slideTemplate={slideTemplate}/>
     </div>
   )
 }
