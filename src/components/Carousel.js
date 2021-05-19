@@ -86,9 +86,13 @@ const Carousel = ({slidesData}) => {
     const swipeLengthX = Math.abs(carouselParams.startCoord.x - carouselParams.actionCoord.x);
     const swipeLengthY = Math.abs(carouselParams.startCoord.y - carouselParams.actionCoord.y);
     
-    if (swipeLengthX > swipeLengthY && carouselParams.isScroll === false) {
+    if (swipeLengthX >= Const.DRAG_THRESHOLD 
+        && swipeLengthX > swipeLengthY 
+        && carouselParams.isScroll === false) {
       carouselParams.isSwipe = true;
-    } else if (swipeLengthX <= swipeLengthY && carouselParams.isSwipe === false) {
+    } else if (swipeLengthY >= Const.DRAG_THRESHOLD 
+               && swipeLengthX <= swipeLengthY 
+               && carouselParams.isSwipe === false) {
       carouselParams.isScroll = true;
     }
 
@@ -97,8 +101,8 @@ const Carousel = ({slidesData}) => {
       return;
     }
 
-    if (swipeLengthX < Const.DRAG_THRESHOLD) return;
-    carouselParams.isMoveAction = true;
+    if (swipeLengthX < Const.DRAG_THRESHOLD && carouselParams.isMoveAction === false) return;
+    else carouselParams.isMoveAction = true;
 
     CarouselUtils.dragSlides(carouselParams.slidesContainer, carouselParams.slidesComponent, 
                              actionXDiff, mainSlidesArr, setMainSlides);
