@@ -82,7 +82,6 @@ const Carousel = ({slidesData}) => {
   const actionHandler = (e) => {
     if (e.type === "mousemove" && carouselParams.isTouch === true) return;
     if (carouselParams.inAction === false) return;
-    carouselParams.pointerMoved = true;
     
     const actionXDiff = carouselParams.actionX - CarouselUtils.getActionX(e);
     carouselParams.actionX = CarouselUtils.getActionX(e);
@@ -90,6 +89,8 @@ const Carousel = ({slidesData}) => {
     const swipeLength = carouselParams.startX - carouselParams.actionX;
     if (Math.abs(swipeLength) < Const.DRAG_THRESHOLD 
         || carouselParams.isScroll === true) return;
+
+    carouselParams.pointerMoved = true;
 
     CarouselUtils.dragSlides(carouselParams.slidesContainer, carouselParams.slidesComponent, 
                              actionXDiff, mainSlidesArr, setMainSlides);
