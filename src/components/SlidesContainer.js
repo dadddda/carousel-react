@@ -9,6 +9,7 @@ import ButtonsContainer from "./ButtonsContainer";
 const SlidesContainer = ({
   type, 
   slidesArr, 
+  SlideTemplate,
   startActionHandler, 
   actionHandler, 
   stopActionHandler,
@@ -31,6 +32,7 @@ const SlidesContainer = ({
       <Slides 
         type={type} 
         slidesArr={slidesArr} 
+        SlideTemplate={SlideTemplate}
         clickHandler={clickHandler}
         ref={slidesRef}
       />

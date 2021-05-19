@@ -1,0 +1,52 @@
+[
+  {
+    "imgPath": "./images/bridge.jpg",
+    "thumbnailPath": "./images/bridge_small.jpg",
+    "filename": "Bridge"
+  },
+  {
+    "imgPath": "./images/clouds.jpg",
+    "thumbnailPath": "./images/clouds_small.jpg",
+    "filename": "Clouds"
+  },
+  {
+    "imgPath": "./images/forest.jpg",
+    "thumbnailPath": "./images/forest_small.jpg",
+    "filename": "Forest"
+  },
+  {
+    "imgPath": "./images/frost.jpg",
+    "thumbnailPath": "./images/frost_small.jpg",
+    "filename": "Frost"
+  },
+  {
+    "imgPath": "./images/lake.jpg",
+    "thumbnailPath": "./images/lake_small.jpg",
+    "filename": "Lake"
+  },
+  {
+    "imgPath": "./images/mountain.jpg",
+    "thumbnailPath": "./images/mountain_small.jpg",
+    "filename": "Mountain"
+  },
+  {
+    "imgPath": "./images/river.jpg",
+    "thumbnailPath": "./images/river_small.jpg",
+    "filename": "River"
+  },
+  {
+    "imgPath": "./images/road.jpg",
+    "thumbnailPath": "./images/road_small.jpg",
+    "filename": "Road"
+  },
+  {
+    "imgPath": "./images/sunrays.jpg",
+    "thumbnailPath": "./images/sunrays_small.jpg",
+    "filename": "Sunrays"
+  },
+  {
+    "imgPath": "./images/train.jpg",
+    "thumbnailPath": "./images/train_small.jpg",
+    "filename": "Train"
+  }
+]

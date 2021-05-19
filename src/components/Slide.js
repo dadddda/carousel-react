@@ -3,10 +3,10 @@ import React from "react";
 import "../styles/Slide.css";
 import * as Const from "../helpers/constants";
 
-const Slide = ({type, slideProps}) => {
+const Slide = ({type, slideProps, SlideTemplate}) => {
   return (
     <div className={"Slide " + type}>
-      <img src={slideProps.path} alt={slideProps.filename} draggable="false"/>
+      <SlideTemplate slideProps={slideProps}/>
     </div>
   )
 }

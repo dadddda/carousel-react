@@ -1,7 +1,5 @@
 .Slide {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
 }
@@ -14,8 +12,31 @@
   padding: 7%;
 }
 
-.Slide img {
+.Slide .ImageSlide img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.Slide .ImageThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.Slide .TextSlide {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: justify;
+  background-color: rgb(210, 210, 210);
+}
+
+.Slide .TextThumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(210, 210, 210);
 }

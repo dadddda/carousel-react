@@ -6,7 +6,11 @@ import * as CarouselUtils from "../helpers/carousel_utils";
 
 import SlidesContainer from "./SlidesContainer";
 
-const Carousel = ({slidesData}) => {
+const Carousel = ({
+  slidesData,
+  SlideTemplate,
+  ThumbnailTemplate
+}) => {
   let mainSlidesId = 0;
   const [mainSlidesArr, setMainSlides] = React.useState(slidesData.map(elem => (
     {...elem, id: mainSlidesId++}
@@ -155,6 +159,7 @@ const Carousel = ({slidesData}) => {
       <SlidesContainer 
         type={Const.MAIN_TYPE} 
         slidesArr={mainSlidesArr} 
+        SlideTemplate={SlideTemplate}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
@@ -164,6 +169,7 @@ const Carousel = ({slidesData}) => {
       <SlidesContainer 
         type={Const.THUMBNAIL_TYPE} 
         slidesArr={thumbnailSlidesArr}
+        SlideTemplate={ThumbnailTemplate}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
@@ -175,7 +181,8 @@ const Carousel = ({slidesData}) => {
 }
 
 Carousel.defaultProps = {
-  slidesData: []
+  slidesData: [],
+  thumbnailsData: []
 }
 
 export default Carousel;
