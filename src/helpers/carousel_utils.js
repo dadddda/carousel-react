@@ -70,6 +70,8 @@ const prependSlide = (slidesArr, setSlides) => {
  * As the change in React state will be apparent after next render and next
  * function calls this function returns slides array as it will be after the 
  * change happens.
+ * 
+ * If given 'slidesArr' contains only one slide, operation is cancelled.
  * @param {*} slidesContainer slides container of main type
  * @param {*} slidesComponent slides component located inside a slides container
  * @param {*} append boolean value
@@ -78,6 +80,8 @@ const prependSlide = (slidesArr, setSlides) => {
  * @returns changed array for reference purposes
  */
 const summonSlide = (slidesContainer, slidesComponent, append, slidesArr, setSlides) => {
+  if (slidesArr.length === 1) return slidesArr;
+
   utilsParams.summoned = true;
   const slidesXPos = getSlidesXPos(slidesContainer, slidesComponent);
   const slide = slidesComponent.childNodes[0];
@@ -328,11 +332,15 @@ const keepRelative = (carouselComponent, slidesComponent, scaleFactor) => {
  * sets appropriate slide from thumbnail slides to "selected".
  * 
  * Passed 'params.currSlideId' changes after function call.
+ * 
+ * If given 'slidesArr' contains only one slide, operation is cancelled.
  * @param {*} params map of carousel parameters
  * @param {*} slidesArr array of React state of slides
  * @param {*} swipeLength swipe length
  */
 const updateCarousel = (params, slidesArr, swipeLength) => {
+  if (slidesArr.length === 1) return;
+
   params.currSlideId = updateSlideId(swipeLength, params.currSlideId, params.slidesCount);
   jumpToSlide(params.slidesComponent, params.currSlideId, slidesArr, true);
   setSelectionTo(params.slidesContainer, params.thumbnailSlidesRef.current, params.currSlideId);
