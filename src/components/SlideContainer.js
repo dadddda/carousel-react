@@ -6,9 +6,8 @@ import * as Const from "../helpers/constants";
 import Slide from "./Slide";
 
 const SlideContainer = ({
-  type, 
   slideProps,
-  slideTemplate,
+  type, 
   clickHandler
 }) => {
   return (
@@ -21,14 +20,14 @@ const SlideContainer = ({
       id={slideProps.id} 
       onClick={clickHandler}
     >
-      <Slide type={type} slideProps={slideProps} slideTemplate={slideTemplate}/>
+      <Slide slideElem={slideProps.elem} type={type}/>
     </div>
   )
 }
 
 SlideContainer.defaultProps = {
-  type: Const.MAIN_TYPE,
   slideProps: {},
+  type: Const.MAIN_TYPE,
   clickHandler: () => {}
 }
 

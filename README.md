@@ -1,6 +1,6 @@
 # React.js carousel component 
 
-This carousel component works on desktop and mobile devices with its responsive design. It works with any HTML content. Supports swipes, button navigation, thumbnails and infinite scroll. It's implemented without using any third-party libraries.
+This carousel component works on desktop and mobile devices with its responsive design. It works with any HTML content on individual slides. Supports swipes, button navigation, thumbnails and infinite scroll. It's implemented without using any third-party libraries.
 
 ### Install
 
@@ -29,77 +29,86 @@ By default the app runs on `localhost:8080`
 
 All the necessary files for the carousel component are located in `src/components`, `src/styles` and `src/helpers` directories.
 
-For demonstration purposes `App.js` contains two types of carousel components. First component shows images which are located inside `public/images` folder and the data about the images is stored inside `image-slides.json` file located in `src/data` folder. The second carousel component shows texts and the data about the texts is stored inside `text-slides.json` file located also in `src/data` folder.
+For demonstration purposes `App.js` renders carousel component which contains text and image slides. Images are taken from `public/images` folder and the data for individual slide is stored inside `slides-data.json` file located in `src/data` folder.
 
 There are a few things you should know:
 
-1. Carousel component takes an array of map elements as its prop `slidesData`. 
-2. Each map element of the array represents individual slide.
-3. The size of `slidesData` array decides how many slides render inside carousel component.
-4. You can leave map elements empty as `"id"` keys are added automatically inside carousel component, but feel free to add as many additional props as you wish that you will be using inside each slide component(Which are also passed as props).
-5. In addition to `slidesData` carousel component also takes two template components as `slideTemplate` and `thumbnailTemplate` props. This two components are created by you and are rendered as main slide and as thumbnail slide respectively. As a result the carousel component supports any **HTML** content.
-6. You only need to create **JSON** file and modify `App.js` and `Slide.css` files according to your content.
+1. Carousel component takes only two props `mainSlides` and `thumbnailSlides`. Each prop takes children of `<SlidesWrapper/>` component and renders them as individual slides.
+2. `<SlidesWrapper/>` component is provided with its `src/styles/SlidesWrapper.css` for your slides styling.
+3. If you want the thumbnails to be identical to main slides you can create one wrapper component and pass it to both props of carousel component.
+4. Wrappers for main slides and thumbnails should have equal number of children as they are functionally connected together.
 
-In the example below carousel component of images is shown. For the text variant look inside the code. The implementation approach is identical.
+The example below shows implementation of simple carousel component.
 
-Map elements for carousel component of images include `"imgPath"`, `"thumbnailPath"` and `"filename"` keys used for image/thumbnail `src` and `alt` attributes:
-```JSON
-[
-  {
-    "imgPath": "./images/bridge.jpg",
-    "thumbnailPath": "./images/bridge_small.jpg",
-    "filename": "Bridge"
-  }
-]
-```
-
-This **JSON** file is imported as `imageSlides` inside `App.js` and contains the necessary data for each slide. Main slides and thumbnail slides also require template React components to render necessary **HTML** content, in this example, images. The template components accept `slideProps` as their props and from this prop **JSON** file's data is retrieved:
+`App.js` imports all the necessary stuff plus `<SlidesWrapper/>` and `<Carousel/>` components:
 ```JSX
-import imageSlides from "./data/image-slides.json";
-import Carousel from "./components/Carousel"
-
-const App = () => {
-  // template for image slide
-  const ImageSlide = ({slideProps}) => {
-    return (
-      <div className="ImageSlide">
-        <img src={slideProps.imgPath} alt={slideProps.filename} draggable="false"/>
-      </div>
-    )
-  }
-
-  // template for image thumbnail
-  const ImageThumbnail = ({slideProps}) => {
-    return (
-      <div className="ImageThumbnail">
-        <img src={slideProps.thumbnailPath} alt={slideProps.filename} draggable="false"/>
-      </div>
-    )
-  }
-
-  return (
-    <div className="App">
-      <Carousel 
-        slidesData={imageSlides} 
-        slideTemplate={ImageSlide}
-        thumbnailTemplate={ImageThumbnail}
-      />
-    </div>
-  );
-}
+import SlidesWrapper from "./components/SlidesWrapper";
+import Carousel from "./components/Carousel";
 ```
 
-Lastly all the necessary styling is written inside `src/styles/Slide.css` file. The below styling is used for image carousel component:
+Inside `App` two wrapper components are created for main slides and thumbnail slides respectively. In this example we have only two slides, first for the text and second for the image:
+```JSX
+const mainSlides = <SlidesWrapper>
+  <div className="textSlide">
+    <h1>Bridge</h1>
+    <p>Bridge text...</p>
+  </div>
+  <div className="imageSlide">
+    <img src="./images/bridge.jpg" draggable="false"/>
+  </div>
+</SlidesWrapper>
+
+const thumbnailSlides = <SlidesWrapper>
+  <div className="textThumbnail">
+    <h2>B</h2>
+  </div>
+  <div className="imageThumbnail">
+    <img src="./images/bridge_small.jpg" draggable="false"/>
+  </div>
+</SlidesWrapper>
+```
+
+Then the `<Carousel/>` component is created and children of above created components are passed:
+```JSX
+return (
+  <div className="App">
+    <Carousel 
+      mainSlides={mainSlides.props.children}
+      thumbnailSlides={thumbnailSlides.props.children}
+    />
+  </div>
+);
+```
+
+Lastly all the necessary styling is written inside `src/styles/SlidesWrapper.css` file:
 ```CSS
-.Slide .ImageSlide img {
+.imageSlide img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.Slide .ImageThumbnail img {
+.imageThumbnail img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.textSlide {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: justify;
+  overflow-y: auto;
+  background-color: rgb(210, 210, 210);
+}
+
+.textThumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(210, 210, 210);
 }
 ```

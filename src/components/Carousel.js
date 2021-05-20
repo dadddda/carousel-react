@@ -6,19 +6,15 @@ import * as CarouselUtils from "../helpers/carousel_utils";
 
 import SlidesContainer from "./SlidesContainer";
 
-const Carousel = ({
-  slidesData,
-  slideTemplate,
-  thumbnailTemplate
-}) => {
+const Carousel = ({mainSlides, thumbnailSlides}) => {
   let mainSlidesId = 0;
-  const [mainSlidesArr, setMainSlides] = React.useState(slidesData.map(elem => (
-    {...elem, id: mainSlidesId++}
+  const [mainSlidesArr, setMainSlides] = React.useState(mainSlides.map(elem => (
+    {elem: elem, id: mainSlidesId++}
   )));
 
   let thumbnailSlidesId = 0;
-  const [thumbnailSlidesArr, setThumbnailSlides] = React.useState(slidesData.map(elem => (
-    {...elem, id: thumbnailSlidesId++}
+  const [thumbnailSlidesArr, setThumbnailSlides] = React.useState(thumbnailSlides.map(elem => (
+    {elem: elem, id: thumbnailSlidesId++}
   )));
 
   const carouselParamsRef = React.useRef({
@@ -160,7 +156,6 @@ const Carousel = ({
       <SlidesContainer 
         type={Const.MAIN_TYPE} 
         slidesArr={mainSlidesArr} 
-        slideTemplate={slideTemplate}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
@@ -170,7 +165,6 @@ const Carousel = ({
       <SlidesContainer 
         type={Const.THUMBNAIL_TYPE} 
         slidesArr={thumbnailSlidesArr}
-        slideTemplate={thumbnailTemplate}
         startActionHandler={startActionHandler}
         actionHandler={actionHandler}
         stopActionHandler={stopActionHandler}
@@ -182,8 +176,8 @@ const Carousel = ({
 }
 
 Carousel.defaultProps = {
-  slidesData: [],
-  thumbnailsData: []
+  mainSlides: [],
+  thumbnailSlides: []
 }
 
 export default Carousel;

@@ -8,7 +8,6 @@ import SlideContainer from "./SlideContainer";
 const Slides = React.forwardRef(({
   type, 
   slidesArr, 
-  slideTemplate,
   clickHandler
 }, ref) => {
   return (
@@ -16,9 +15,8 @@ const Slides = React.forwardRef(({
       {slidesArr.map(slideProps => (
         <SlideContainer 
           key={slideProps.id} 
-          type={type}
           slideProps={slideProps}
-          slideTemplate={slideTemplate}
+          type={type}
           clickHandler={clickHandler}
         />
       ))}

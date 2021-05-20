@@ -2,60 +2,52 @@ import React from "react";
 
 import "./App.css";
 
-import imageSlides from "./data/image-slides.json";
-import textSlides from "./data/text-slides.json";
+import slidesData from "./data/slides-data.json";
 
-import Carousel from "./components/Carousel"
+import SlidesWrapper from "./components/SlidesWrapper";
+import Carousel from "./components/Carousel";
 
 const App = () => {
-  // template for image slide
-  const ImageSlide = ({slideProps}) => {
+  const mainSlidesArr = slidesData.map(slideData => {
     return (
-      <div className="ImageSlide">
-        <img src={slideProps.imgPath} alt={slideProps.filename} draggable="false"/>
-      </div>
-    )
-  }
+      <>
+        <div className="textSlide">
+          <h1>{slideData.filename}</h1>
+          <p>{slideData.text}</p>
+        </div>
+        <div className="imageSlide">
+          <img src={slideData.imgPath} alt={slideData.filename} draggable="false"/>
+        </div>
+      </>
+    ).props.children;
+  });
 
-  // template for image thumbnail
-  const ImageThumbnail = ({slideProps}) => {
+  const thumbnailSlidesArr = slidesData.map(slideData => {
     return (
-      <div className="ImageThumbnail">
-        <img src={slideProps.thumbnailPath} alt={slideProps.filename} draggable="false"/>
-      </div>
-    )
-  }
+      <>
+        <div className="textThumbnail">
+          <h2>{slideData.thumbnail}</h2>
+        </div>
+        <div className="imageThumbnail">
+          <img src={slideData.thumbnailPath} alt={slideData.filename} draggable="false"/>
+        </div>
+      </>
+    ).props.children;
+  });
+  
+  const mainSlides = <SlidesWrapper>
+    {mainSlidesArr.flat()}
+  </SlidesWrapper>
 
-  // template for text slide
-  const TextSlide = ({slideProps}) => {
-    return (
-      <div className="TextSlide">
-        <h1>{slideProps.title}</h1>
-        <p>{slideProps.text}</p>
-      </div>
-    )
-  }
-
-  // template for text thumbnail
-  const TextThumbnail = ({slideProps}) => {
-    return (
-      <div className="TextThumbnail">
-        <h2>{slideProps.thumbnail}</h2>
-      </div>
-    )
-  }
+  const thumbnailSlides = <SlidesWrapper>
+    {thumbnailSlidesArr.flat()}
+  </SlidesWrapper>
 
   return (
     <div className="App">
       <Carousel 
-        slidesData={imageSlides} 
-        slideTemplate={ImageSlide}
-        thumbnailTemplate={ImageThumbnail}
-      />
-      <Carousel 
-        slidesData={textSlides} 
-        slideTemplate={TextSlide}
-        thumbnailTemplate={TextThumbnail}
+        mainSlides={mainSlides.props.children}
+        thumbnailSlides={thumbnailSlides.props.children}
       />
     </div>
   );

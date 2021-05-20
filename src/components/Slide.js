@@ -3,19 +3,17 @@ import React from "react";
 import "../styles/Slide.css";
 import * as Const from "../helpers/constants";
 
-const Slide = ({type, slideProps, slideTemplate}) => {
-  const SlideTemplate = slideTemplate;
-
+const Slide = ({slideElem, type}) => {
   return (
     <div className={"Slide " + type}>
-      <SlideTemplate slideProps={slideProps}/>
+      {slideElem}
     </div>
   )
 }
 
 Slide.defaultProps = {
-  type: Const.MAIN_TYPE,
-  slideProps: {}
+  slideElem: <></>,
+  type: Const.MAIN_TYPE
 }
 
 export default Slide;

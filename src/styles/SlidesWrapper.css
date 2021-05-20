@@ -1,0 +1,29 @@
+.imageSlide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.imageThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.textSlide {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: justify;
+  overflow-y: auto;
+  background-color: rgb(210, 210, 210);
+}
+
+.textThumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(210, 210, 210);
+}
