@@ -36,7 +36,8 @@ const Carousel = ({
       currSlideId: 0,
       carouselRef: React.createRef(),
       mainSlidesRef: React.createRef(),
-      thumbnailSlidesRef: React.createRef()
+      thumbnailSlidesRef: React.createRef(),
+      carouselWidth: 0
     }
   )
 
@@ -44,10 +45,10 @@ const Carousel = ({
 
   // window resize event initializer and handler
   React.useEffect(() => {
-    let carouselWidth = carouselParams.carouselRef.current.offsetWidth;
+    carouselParams.carouselWidth = carouselParams.carouselRef.current.offsetWidth;
     const resizeHandler = () => {
-      const scaleFactor = carouselParams.carouselRef.current.offsetWidth / carouselWidth;
-      carouselWidth = carouselParams.carouselRef.current.offsetWidth;
+      const scaleFactor = carouselParams.carouselRef.current.offsetWidth / carouselParams.carouselWidth;
+      carouselParams.carouselWidth = carouselParams.carouselRef.current.offsetWidth;
   
       CarouselUtils.keepRelative(carouselParams.carouselRef.current, 
                                  carouselParams.mainSlidesRef.current, scaleFactor);
@@ -130,7 +131,7 @@ const Carousel = ({
       return;
     }
 
-    let swipeLength = carouselParams.startCoord.x - carouselParams.actionCoord.x;
+    const swipeLength = carouselParams.startCoord.x - carouselParams.actionCoord.x;
     CarouselUtils.updateCarousel(carouselParams, mainSlidesArr, swipeLength);
 
     carouselParams.inAction = false;

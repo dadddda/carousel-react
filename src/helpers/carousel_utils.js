@@ -1,11 +1,11 @@
 import * as Const from "./constants";
 
-/**
- * Variable which stores wether or not new slide has been
- * summoned(appended/prepended). It's used to temporarily
- * block summoning of a new slide.
- */
-let summoned = false;
+const utilsParams = {
+  // Boolean which stores wether or not new slide has been
+  // summoned(appended/prepended). It's used to temporarily
+  // block summoning of a new slide.
+  summoned: false
+}
 
 /**
  * Returns given slides component's x(left) position relative to
@@ -78,22 +78,21 @@ const prependSlide = (slidesArr, setSlides) => {
  * @returns changed array for reference purposes
  */
 const summonSlide = (slidesContainer, slidesComponent, append, slidesArr, setSlides) => {
-  summoned = true;
+  utilsParams.summoned = true;
   const slidesXPos = getSlidesXPos(slidesContainer, slidesComponent);
   const slide = slidesComponent.childNodes[0];
-  let newSlidesXPos = slidesXPos;
 
-  let changedSlides = [];
   if (append) {
-    changedSlides = appendSlide(slidesArr, setSlides);
-    newSlidesXPos += slide.offsetWidth;
+    const changedSlides = appendSlide(slidesArr, setSlides);
+    const newSlidesXPos = slidesXPos + slide.offsetWidth;
+    slidesComponent.style.left = newSlidesXPos + "px";
+    return changedSlides;
   } else {
-    changedSlides = prependSlide(slidesArr, setSlides);
-    newSlidesXPos -= slide.offsetWidth;
+    const changedSlides = prependSlide(slidesArr, setSlides);
+    const newSlidesXPos = slidesXPos - slide.offsetWidth;
+    slidesComponent.style.left = newSlidesXPos + "px";
+    return changedSlides;
   }
-
-  slidesComponent.style.left = newSlidesXPos + "px";
-  return changedSlides;
 }
 
 /**
@@ -121,25 +120,25 @@ const dragSlides = (slidesContainer, slidesComponent, actionXDiff, slidesArr, se
   if (slidesContainerBr.width > slidesComponentBr.width) return;
 
   const slidesXPos = slidesComponentBr.left - slidesContainerBr.left;
-  let newSlidesXPos = slidesXPos - actionXDiff;
+  const newSlidesXPos = slidesXPos - actionXDiff;
 
   const slidesStartX = 0;
   const slidesEndX = slidesComponentBr.width - slidesContainerBr.width;
 
   if (newSlidesXPos > 0) {
-    if (slidesContainer.classList.contains(Const.MAIN_TYPE) && summoned === false) {
+    if (slidesContainer.classList.contains(Const.MAIN_TYPE) && utilsParams.summoned === false) {
       summonSlide(slidesContainer, slidesComponent, false, slidesArr, setSlides);
-      return;
     } else {
-      newSlidesXPos = slidesStartX;
+      slidesComponent.style.left = slidesStartX + "px";
     }
+    return;
   } else if (newSlidesXPos < slidesEndX * -1) {
-    if (slidesContainer.classList.contains(Const.MAIN_TYPE) && summoned === false) {
+    if (slidesContainer.classList.contains(Const.MAIN_TYPE) && utilsParams.summoned === false) {
       summonSlide(slidesContainer, slidesComponent, true, slidesArr, setSlides);
-      return;
     } else {
-      newSlidesXPos = slidesEndX * -1;
+      slidesComponent.style.left = (slidesEndX * -1) + "px";
     }
+    return;
   }
 
   slidesComponent.style.left = newSlidesXPos + "px";
@@ -185,7 +184,7 @@ const jumpToSlide = (slidesComponent, slideId, slidesArr, animate) => {
     }, Const.TRANSITION_DURATION);
   }
 
-  summoned = false;
+  utilsParams.summoned = false;
 }
 
 /**
@@ -229,14 +228,16 @@ const setSelectionTo = (slidesContainer, slidesComponent, slideId) => {
   const slidesContainerBr = slidesContainer.getBoundingClientRect();
   const slideBr = slides[slideId].getBoundingClientRect();
 
-  let offset = 0;
   if (slidesContainerBr.right < slideBr.right) {
-    offset = slidesContainerBr.right - slideBr.right;
+    const offset = slidesContainerBr.right - slideBr.right;
+    jumpByOffset(slidesContainer, slidesComponent, offset, true);
   } else if (slidesContainerBr.left > slideBr.left) {
-    offset = slidesContainerBr.left - slideBr.left;
+    const offset = slidesContainerBr.left - slideBr.left;
+    jumpByOffset(slidesContainer, slidesComponent, offset, true);
+  } else {
+    jumpByOffset(slidesContainer, slidesComponent, 0, true);
   }
-
-  jumpByOffset(slidesContainer, slidesComponent, offset, true);
+  
   slides[slideId].classList.add(Const.SELECTED_SLIDE);
 }
 
@@ -250,15 +251,15 @@ const setSelectionTo = (slidesContainer, slidesComponent, slideId) => {
  * @returns updated slide id
  */
 const updateSlideId = (swipeLength, slideId, slidesCount) => {
-  let newSlideId = slideId;
+  const newSlideId = slideId;
   if (Math.abs(swipeLength) < Const.JUMP_THRESHOLD) return newSlideId;
   
   if (swipeLength > 0) {
-    if (slideId < slidesCount - 1) newSlideId++;
-    else newSlideId = 0;
+    if (slideId < slidesCount - 1) return newSlideId + 1;
+    else return 0;
   } else if (swipeLength < 0) {
-    if (slideId > 0) newSlideId--;
-    else newSlideId = slidesCount - 1;
+    if (slideId > 0) return newSlideId - 1;
+    else return slidesCount - 1;
   }
 
   return newSlideId;
@@ -274,11 +275,12 @@ const updateSlideId = (swipeLength, slideId, slidesCount) => {
  * @returns client x and y coordinates of touch/mouse action
  */
 const getActionCoords = (e) => {
-  let coordinateData = e;
   const touch = e.touches;
-  if (touch !== undefined) coordinateData = touch[0];
+  if (touch !== undefined) {
+    return {x: touch[0].clientX, y: touch[0].clientY};
+  }
 
-  return {x: coordinateData.clientX, y: coordinateData.clientY};
+  return {x: e.clientX, y: e.clientY};
 }
 
 /**
@@ -346,13 +348,13 @@ const updateCarousel = (params, slidesArr, swipeLength) => {
 const goToNextSlide = (params, slidesArr, setSlides) => {
   const summon = isLast(slidesArr, params.currSlideId);
 
-  let changedSlidesArr = slidesArr;
   if (summon) {
-    changedSlidesArr = summonSlide(params.slidesContainer, params.slidesComponent, 
-                                   true, slidesArr, setSlides);
+    const changedSlidesArr = summonSlide(params.slidesContainer, params.slidesComponent, 
+                                         true, slidesArr, setSlides);
+    updateCarousel(params, changedSlidesArr, Const.JUMP_THRESHOLD);
+  } else {
+    updateCarousel(params, slidesArr, Const.JUMP_THRESHOLD);
   }
-  
-  updateCarousel(params, changedSlidesArr, Const.JUMP_THRESHOLD);
 }
 
 /**
@@ -365,13 +367,13 @@ const goToNextSlide = (params, slidesArr, setSlides) => {
 const goToPreviousSlide = (params, slidesArr, setSlides) => {
   const summon = isFirst(slidesArr, params.currSlideId);
 
-  let changedSlidesArr = slidesArr;
   if (summon) {
-    changedSlidesArr = summonSlide(params.slidesContainer, params.slidesComponent, 
-                                   false, slidesArr, setSlides);
+    const changedSlidesArr = summonSlide(params.slidesContainer, params.slidesComponent, 
+                                         false, slidesArr, setSlides);
+    updateCarousel(params, changedSlidesArr, -1 * Const.JUMP_THRESHOLD);
+  } else {
+    updateCarousel(params, slidesArr, -1 * Const.JUMP_THRESHOLD);
   }
-
-  updateCarousel(params, changedSlidesArr, -1 * Const.JUMP_THRESHOLD);
 }
 
 /**
