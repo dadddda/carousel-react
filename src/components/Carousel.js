@@ -30,12 +30,12 @@ const Carousel = ({mainSlides, thumbnailSlides}) => {
       slidesComponent: null,
       slidesCount: 0,
       currSlideId: 0,
-      carouselRef: React.createRef(),
-      mainSlidesRef: React.createRef(),
-      thumbnailSlidesRef: React.createRef(),
+      carouselRef: React.useRef(null),
+      mainSlidesRef: React.useRef(null),
+      thumbnailSlidesRef: React.useRef(null),
       carouselWidth: 0
     }
-  )
+  );
 
   const carouselParams = carouselParamsRef.current;
 

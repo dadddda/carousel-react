@@ -32,7 +32,7 @@ const SlidesContainer = ({
         type={type} 
         slidesArr={slidesArr} 
         clickHandler={clickHandler}
-        ref={slidesRef}
+        slidesRef={slidesRef}
       />
       {
         type === Const.MAIN_TYPE 

@@ -5,13 +5,14 @@ import * as Const from "../helpers/constants";
 
 import SlideContainer from "./SlideContainer";
 
-const Slides = React.forwardRef(({
+const Slides = ({
   type, 
   slidesArr, 
-  clickHandler
-}, ref) => {
+  clickHandler,
+  slidesRef
+}) => {
   return (
-    <div className="Slides" ref={ref}>
+    <div className="Slides" ref={slidesRef}>
       {slidesArr.map(slideProps => (
         <SlideContainer 
           key={slideProps.id} 
@@ -22,7 +23,7 @@ const Slides = React.forwardRef(({
       ))}
     </div>
   )
-});
+};
 
 Slides.defaultProps = {
   type: Const.MAIN_TYPE,
